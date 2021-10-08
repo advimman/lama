@@ -1,0 +1,36 @@
+datadir: val_large
+indir: ${location.root_dir}/${datadir}
+outdir: ${location.out_dir}/${datadir}/segm_512
+
+n_jobs: 2
+
+generator_kind: segmentation
+
+mask_generator_kwargs:
+  confidence_threshold: 0.5
+  max_object_area: 0.5
+  min_mask_area: 0.05
+  downsample_levels: 6
+  num_variants_per_mask: 3
+  rigidness_mode: 1
+  max_foreground_coverage: 1  # turn off filtering by overlap
+  max_foreground_intersection: 1  # turn off filtering by overlap
+  max_mask_intersection: 0.2  # the lower this value the higher diversity
+  max_hidden_area: 0.5
+  max_scale_change: 0.25
+  horizontal_flip: True
+  max_vertical_shift: 0.3
+  position_shuffle: True
+
+max_masks_per_image: 1
+
+cropping:
+  out_min_size: 512
+  handle_small_mode: upscale
+  out_square_crop: True
+  crop_min_overlap: 1
+
+max_tamper_area: 0.5
+
+defaults:
+  - location: mml7-places

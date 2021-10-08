@@ -1,0 +1,5 @@
+# @package _group_
+
+root_dir: /media/inpainting/FFHQ/
+out_dir: /media/inpainting/paper_data/FFHQ_val
+extension: png

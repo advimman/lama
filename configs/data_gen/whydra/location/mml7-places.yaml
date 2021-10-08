@@ -1,0 +1,5 @@
+# @package _group_
+
+root_dir: /data/inpainting/Places365
+out_dir: /data/inpainting/paper_data/Places365_val_test
+extension: jpg

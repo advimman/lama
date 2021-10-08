@@ -1,0 +1,64 @@
+run_title: ''
+
+training_model:
+  kind: default
+  visualize_each_iters: 1000
+  concat_mask: true
+  store_discr_outputs_for_vis: true
+losses:
+  l1:
+    weight_missing: 0
+    weight_known: 10
+  perceptual:
+    weight: 0
+  adversarial:
+    kind: r1
+    weight: 10
+    gp_coef: 0.001
+    mask_as_fake_target: true
+    allow_scale_mask: true
+  feature_matching:
+    weight: 100
+  resnet_pl:
+    weight: 30
+    weights_path: ${env:TORCH_HOME}
+optimizers:
+  generator:
+    kind: adam
+    lr: 0.001
+  discriminator:
+    kind: adam
+    lr: 0.0001
+visualizer:
+  key_order:
+  - image
+  - predicted_image
+  - discr_output_fake
+  - discr_output_real
+  - inpainted
+  rescale_keys:
+  - discr_output_fake
+  - discr_output_real
+  kind: directory
+  outdir: ./visualizer-output/lama-regular/samples
+
+generator:
+  kind: pix2pixhd_global
+  input_nc: 4
+  output_nc: 3
+  ngf: 64
+  n_downsampling: 3
+  n_blocks: 9
+  conv_kind: default
+  add_out_act: sigmoid
+discriminator:
+  kind: pix2pixhd_nlayer
+  input_nc: 3
+  ndf: 64
+  n_layers: 4
+defaults:
+  - location: docker
+  - data: abl-04-256-mh-dist
+  - evaluator: default_inpainted
+  - trainer: any_gpu_large_ssim_ddp_final
+  - hydra: overrides
