@@ -27,7 +27,7 @@ There are three enviroment options:
     source inpenv/bin/activate
     pip install torch==1.8.0 torchvision==0.9.0
     
-    cd inpainting-lama
+    cd lama
     pip install -r requirements.txt 
     ```
 
@@ -39,7 +39,7 @@ There are three enviroment options:
     bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda
     $HOME/miniconda/bin/conda init bash
 
-    cd inpainting-lama
+    cd lama
     conda env create -f conda_env.yml
     conda activate lama
     conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch -y
@@ -52,7 +52,7 @@ There are three enviroment options:
 
 Run
 ```
-cd lama-inpainting
+cd lama
 export TORCH_HOME=$(pwd) && export PYTHONPATH=.
 ```
 
@@ -126,7 +126,7 @@ Docker cuda: TODO
 Make sure you run:
 
 ```
-cd lama-inpainting
+cd lama
 export TORCH_HOME=$(pwd) && export PYTHONPATH=.
 ```
 
