@@ -16,7 +16,7 @@ Anastasia Remizova, Arsenii Ashukha, Aleksei Silvestrov, Naejin Kong, Harshith G
 # Environment setup
 
 Clone the repo:
-`git clone git@github.sec.samsung.net:UREP/inpainting-lama.git`
+`git clone https://github.com/saic-mdal/lama.git`
 
 There are three enviroment options:
 
