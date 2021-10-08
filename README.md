@@ -1,6 +1,6 @@
 # Resolution-robust Large Mask Inpainting with Fourier Convolutions
 
-Official implementation
+Official implementation @ Samsung Research
 
 by Roman Suvorov, Elizaveta Logacheva, Anton Mashikhin, 
 Anastasia Remizova, Arsenii Ashukha, Aleksei Silvestrov, Naejin Kong, Harshith Goka, Kiwoong Park, Victor Lempitsky.
