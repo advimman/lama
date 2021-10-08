@@ -9,7 +9,7 @@ Anastasia Remizova, Arsenii Ashukha, Aleksei Silvestrov, Naejin Kong, Harshith G
 
 **TODO** Try in Colab
 
-![Teaser Image](https://senya-ashukha.github.io/projects/lama_21/ezgif-4-0db51df695a8_hr.gif)
+![Teaser Image](https://raw.githubusercontent.com/senya-ashukha/senya-ashukha.github.io/master/projects/lama_21/ezgif-4-0db51df695a8_hr.gif)
 
 
 # Environment setup
