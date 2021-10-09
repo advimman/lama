@@ -18,7 +18,7 @@ Anastasia Remizova, Arsenii Ashukha, Aleksei Silvestrov, Naejin Kong, Harshith G
 Clone the repo:
 `git clone https://github.com/saic-mdal/lama.git`
 
-There are three options of environment:
+There are three options of an environment:
 
 1. Python virtualenv:
 
@@ -198,7 +198,7 @@ On the host machine:
       
 Docker: TODO
 
-## Create your own data
+## Create your data
 On the host machine:
 
 Explain explain explain
@@ -210,7 +210,7 @@ Explain explain explain
     
 **OR** in the docker:
 
-    TODO: trian
+    TODO: train
     TODO: eval
     
 # Hints
@@ -228,7 +228,7 @@ The test data generation command stores images in the format,
 which is suitable for [prediction](#prediction).
 
 The table below describes which configs we used to generate different test sets from the paper.
-Note that we *do not fix a random seed*, so the results will be a bit different each time.
+Note that we *do not fix a random seed*, so the results will be slightly different each time.
 
 |        | Places 512x512         | CelebA 256x256         |
 |--------|------------------------|------------------------|
@@ -236,7 +236,7 @@ Note that we *do not fix a random seed*, so the results will be a bit different 
 | Medium | random_medium_512.yaml | random_medium_256.yaml |
 | Wide   | random_thick_512.yaml  | random_thick_256.yaml  |
 
-Feel free to change config path (argument #1) to any other config in `configs/data_gen` 
+Feel free to change the config path (argument #1) to any other config in `configs/data_gen` 
 or adjust config files themselves.
 
 ### Override parameters in configs
