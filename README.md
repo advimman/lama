@@ -275,7 +275,7 @@ TODO: IPython with tables?
 * FID is from [mseitzer](https://github.com/mseitzer/pytorch-fid)
 
 ## Citation
-If you found this code useful, please cite 
+If you found this code helpful, please consider citing: 
 ```
 @article{suvorov2021resolution,
   title={Resolution-robust Large Mask Inpainting with Fourier Convolutions},
