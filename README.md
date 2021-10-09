@@ -1,6 +1,6 @@
 # Resolution-robust Large Mask Inpainting with Fourier Convolutions
 
-Official implementation @ Samsung Research
+Official implementation by Samsung Research
 
 by Roman Suvorov, Elizaveta Logacheva, Anton Mashikhin, 
 Anastasia Remizova, Arsenii Ashukha, Aleksei Silvestrov, Naejin Kong, Harshith Goka, Kiwoong Park, Victor Lempitsky.
@@ -18,7 +18,7 @@ Anastasia Remizova, Arsenii Ashukha, Aleksei Silvestrov, Naejin Kong, Harshith G
 Clone the repo:
 `git clone https://github.com/saic-mdal/lama.git`
 
-There are three enviroment options:
+There are three options of environment:
 
 1. Python virtualenv:
 
@@ -56,7 +56,7 @@ cd lama
 export TORCH_HOME=$(pwd) && export PYTHONPATH=.
 ```
 
-**1. Download pretrained models**
+**1. Download pre-trained models**
 
 Install tool for yandex disk link extraction:
 
@@ -64,7 +64,7 @@ Install tool for yandex disk link extraction:
 pip3 install wldhx.yadisk-direct
 ```
 
-Best model (Places):
+The best model (Places):
     
 ```    
 curl -L $(yadisk-direct https://disk.yandex.ru/d/ouP6l8VJ0HpMZg) -o big-lama.zip
@@ -120,7 +120,7 @@ Docker cuda: TODO
 
 # Train and Eval
 
-⚠️ Warning: is not fully tested yet, e.g. did not re-training after refactoring ⚠️
+⚠️ Warning: The training is not fully tested yet, e.g., did not re-training after refactoring ⚠️
 
 
 Make sure you run:
@@ -216,7 +216,7 @@ Explain explain explain
 # Hints
 
 ### Generate different kinds of masks
-The following command will execute script that generates random masks.
+The following command will execute a script that generates random masks.
 
     bash docker/1_generate_masks_from_raw_images.sh \
         configs/data_gen/random_medium_512.yaml \
@@ -227,8 +227,8 @@ The following command will execute script that generates random masks.
 The test data generation command stores images in the format,
 which is suitable for [prediction](#prediction).
 
-The table below describes which configs we used to generated different test sets from the paper.
-Note that we *do not fix random seed*, so the results will be a bit different each time.
+The table below describes which configs we used to generate different test sets from the paper.
+Note that we *do not fix a random seed*, so the results will be a bit different each time.
 
 |        | Places 512x512         | CelebA 256x256         |
 |--------|------------------------|------------------------|
@@ -244,7 +244,7 @@ Also you can override parameters in config like this:
 
     python3 bin/train.py -cn <config> data.batch_size=10 run_title=my-title
 
-Where .yaml file extention is omitted
+Where .yaml file extension is omitted
 
 ### Models options 
 Config names for models from paper (substitude into the training command): 
@@ -263,7 +263,7 @@ TODO
 
 ### Our training logs
 
-The training logs are avalible at [https://disk.yandex.ru/d/9Bt1wNSDS4jDkQ](https://disk.yandex.ru/d/9Bt1wNSDS4jDkQ).
+The training logs are available at [https://disk.yandex.ru/d/9Bt1wNSDS4jDkQ](https://disk.yandex.ru/d/9Bt1wNSDS4jDkQ).
 TODO: IPython with tables?
 
 -----
@@ -275,7 +275,7 @@ TODO: IPython with tables?
 * FID is from [mseitzer](https://github.com/mseitzer/pytorch-fid)
 
 ## Citation
-If you found this code useful please cite 
+If you found this code useful, please cite 
 ```
 @article{suvorov2021resolution,
   title={Resolution-robust Large Mask Inpainting with Fourier Convolutions},
