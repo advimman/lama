@@ -1,4 +1,4 @@
-# Resolution-robust Large Mask Inpainting with Fourier Convolutions
+# 🦙 LaMa: Resolution-robust Large Mask Inpainting with Fourier Convolutions
 
 Official implementation by Samsung Research
 
