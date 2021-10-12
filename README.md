@@ -5,6 +5,14 @@ Official implementation by Samsung Research
 by Roman Suvorov, Elizaveta Logacheva, Anton Mashikhin, 
 Anastasia Remizova, Arsenii Ashukha, Aleksei Silvestrov, Naejin Kong, Harshith Goka, Kiwoong Park, Victor Lempitsky.
 
+<p align="center" "font-size:30px;">
+  🔥🔥🔥
+  <br>
+  <b>
+Our model generalizes surprisingly well to much higher resolutions (~2k❗️) than it saw train time (256x256), and achieves excellent
+performance even in challenging scenarios, e.g. completion of periodic structures.</b>
+</p>
+
 [[Project page](https://saic-mdal.github.io/lama-project/)] [[arXiv](https://arxiv.org/abs/2109.07161)] [[Supplementary](https://ashukha.com/projects/lama_21/lama_supmat_2021.pdf)] [[BibTeX](https://senya-ashukha.github.io/projects/lama_21/paper.txt)]
 
 <p align="center">
