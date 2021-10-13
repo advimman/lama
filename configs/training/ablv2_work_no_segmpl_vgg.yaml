@@ -11,7 +11,7 @@ losses:
     weight_missing: 0
     weight_known: 10
   perceptual:
-    weight: 0.1
+    weight: 0.03
   adversarial:
     kind: r1
     weight: 10
