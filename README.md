@@ -77,7 +77,7 @@ Install tool for yandex disk link extraction:
 pip3 install wldhx.yadisk-direct
 ```
 
-The best model (Places):
+The best model (Places2, Places Challenge):
     
 ```    
 curl -L $(yadisk-direct https://disk.yandex.ru/d/ouP6l8VJ0HpMZg) -o big-lama.zip
