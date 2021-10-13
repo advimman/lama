@@ -84,10 +84,10 @@ curl -L $(yadisk-direct https://disk.yandex.ru/d/ouP6l8VJ0HpMZg) -o big-lama.zip
 unzip big-lama.zip
 ```
 
-All models (Places):
+All models (Places & CelebA):
 
 ```
-curl -L $(yadisk-direct https://disk.yandex.ru/d/AmdeG-bIjmvSug) -o lama-models.zip
+curl -L $(yadisk-direct https://disk.yandex.ru/d/EgqaSnLohjuzAg) -o lama-models.zip
 unzip lama-models.zip
 ```
 
