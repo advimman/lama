@@ -270,14 +270,17 @@ Config names for models from paper (substitude into the training command):
 
 Which are seated in configs/training/folder
 
-### Training time
+### Links
+- All the data https://disk.yandex.ru/d/AmdeG-bIjmvSug
+- Test images from the paper https://disk.yandex.ru/d/xKQJZeVRk5vLlQ
+- The pre-trained models https://disk.yandex.ru/d/EgqaSnLohjuzAg
+- The models for perceptual loss https://disk.yandex.ru/d/ncVmQlmT_kTemQ
+- Our training logs are available at https://disk.yandex.ru/d/9Bt1wNSDS4jDkQ
+
+
+### Training time & resources
 
 TODO
-
-### Our training logs
-
-The training logs are available at [https://disk.yandex.ru/d/9Bt1wNSDS4jDkQ](https://disk.yandex.ru/d/9Bt1wNSDS4jDkQ).
-TODO: IPython with tables?
 
 -----
 ## Acknowledgments
