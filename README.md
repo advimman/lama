@@ -282,7 +282,6 @@ Which are seated in configs/training/folder
 
 TODO
 
------
 ## Acknowledgments
 
 * Segmentation code and models if form [CSAILVision](https://github.com/CSAILVision/semantic-segmentation-pytorch).
