@@ -271,7 +271,7 @@ Config names for models from paper (substitude into the training command):
 Which are seated in configs/training/folder
 
 ### Links
-- All the data https://disk.yandex.ru/d/AmdeG-bIjmvSug
+- All the data (models, test images, etc.) https://disk.yandex.ru/d/AmdeG-bIjmvSug
 - Test images from the paper https://disk.yandex.ru/d/xKQJZeVRk5vLlQ
 - The pre-trained models https://disk.yandex.ru/d/EgqaSnLohjuzAg
 - The models for perceptual loss https://disk.yandex.ru/d/ncVmQlmT_kTemQ
