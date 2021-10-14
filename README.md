@@ -26,6 +26,11 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
   <img src="https://raw.githubusercontent.com/senya-ashukha/senya-ashukha.github.io/master/projects/lama_21/ezgif-4-0db51df695a8.gif" />
 </p>
 
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/senya-ashukha/senya-ashukha.github.io/master/projects/lama_21/gif_for_lightning_v1_white.gif" />
+</p>
+
 # Environment setup
 
 Clone the repo:
