@@ -189,8 +189,16 @@ Docker: TODO
     
 ## CelebA
 On the host machine:
+    # Make shure you are in lama folder
+    cd lama
 
-    TODO: download & prepare 
+    # Download CelebA-HQ dataset
+    # Download data256x256.zip from https://drive.google.com/drive/folders/11Vz0fqHS2rXDb5pprgTjpD7S2BAJhi1P
+    
+    # unzip & split into train/test/visualization & create config for it
+    bash fetch_data/celebahq_dataset_prepare.sh
+
+    
     TODO: trian
     TODO: eval
     
