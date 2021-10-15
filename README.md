@@ -191,6 +191,7 @@ Docker: TODO
 On the host machine:
     # Make shure you are in lama folder
     cd lama
+    export TORCH_HOME=$(pwd) && export PYTHONPATH=.
 
     # Download CelebA-HQ dataset
     # Download data256x256.zip from https://drive.google.com/drive/folders/11Vz0fqHS2rXDb5pprgTjpD7S2BAJhi1P
