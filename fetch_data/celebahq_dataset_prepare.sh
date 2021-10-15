@@ -22,8 +22,8 @@ for mode in train \
     val \
     visual_test
 do
-    mkdir celeba-hq-dataset/$mode"_256"
-    cat celeba-hq-dataset/$mode"_shuffled.flist" | xargs -I {} mv celeba-hq-dataset/data256x256/{} celeba-hq-dataset/$mode"_256/"
+    mkdir celeba-hq-dataset/$mode"_source_256/"
+    cat celeba-hq-dataset/$mode"_shuffled.flist" | xargs -I {} mv celeba-hq-dataset/data256x256/{} celeba-hq-dataset/$mode"_source_256/"
 done
 
 

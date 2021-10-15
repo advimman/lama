@@ -199,9 +199,19 @@ On the host machine:
     # unzip & split into train/test/visualization & create config for it
     bash fetch_data/celebahq_dataset_prepare.sh
 
-    
-    TODO: trian
-    TODO: eval
+    # generate masks for test and viz at the end of epoch
+    bash fetch_data/celebahq_gen_masks.sh
+
+    # Run training
+    # You can change bs with data.batch_size=10
+    python bin/train.py -cn lama-fourier-celeba location=celeba
+
+    # Infer model on thick/thin/medium masks in 256 and run evaluation 
+    # like this:
+    python3 bin/predict.py \
+    model.path=$(pwd)/experiments/<user>_<date:time>_lama-fourier-celeba_/ \
+    indir=$(pwd)/celeba-hq-dataset/visual_test_256/random_thick_256/ \
+    outdir=$(pwd)/inference/celeba_random_thick_256 model.checkpoint=last.ckpt
     
     
 Docker: TODO
