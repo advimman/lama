@@ -194,6 +194,7 @@ Docker: TODO
     
 ## CelebA
 On the host machine:
+
     # Make shure you are in lama folder
     cd lama
     export TORCH_HOME=$(pwd) && export PYTHONPATH=.
@@ -204,12 +205,12 @@ On the host machine:
     # unzip & split into train/test/visualization & create config for it
     bash fetch_data/celebahq_dataset_prepare.sh
 
-    # generate masks for test and viz at the end of epoch
+    # generate masks for test and visual_test at the end of epoch
     bash fetch_data/celebahq_gen_masks.sh
 
     # Run training
     # You can change bs with data.batch_size=10
-    python bin/train.py -cn lama-fourier-celeba location=celeba
+    python bin/train.py -cn ablv2_work_no_segmpl_csdilirpl_celeba_csdilirpl1_new location=celeba
 
     # Infer model on thick/thin/medium masks in 256 and run evaluation 
     # like this:
