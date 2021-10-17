@@ -9,22 +9,19 @@ do
 done
 
 
-# train/test/vis split
+# Split: split train -> train & val
 cat fetch_data/train_shuffled.flist | shuf > celeba-hq-dataset/temp_train_shuffled.flist
 cat celeba-hq-dataset/temp_train_shuffled.flist | head -n 2000 > celeba-hq-dataset/val_shuffled.flist
 cat celeba-hq-dataset/temp_train_shuffled.flist | tail -n +2001 > celeba-hq-dataset/train_shuffled.flist
-
 cat fetch_data/val_shuffled.flist > celeba-hq-dataset/visual_test_shuffled.flist
 
+mkdir celeba-hq-dataset/train_256/
+mkdir celeba-hq-dataset/val_source_256/
+mkdir celeba-hq-dataset/visual_test_source_256/
 
-# Split
-for mode in train \
-    val \
-    visual_test
-do
-    mkdir celeba-hq-dataset/$mode"_source_256/"
-    cat celeba-hq-dataset/$mode"_shuffled.flist" | xargs -I {} mv celeba-hq-dataset/data256x256/{} celeba-hq-dataset/$mode"_source_256/"
-done
+cat celeba-hq-dataset/train_shuffled.flist | xargs -I {} mv celeba-hq-dataset/data256x256/{} celeba-hq-dataset/train_256/
+cat celeba-hq-dataset/val_shuffled.flist | xargs -I {} mv celeba-hq-dataset/data256x256/{} celeba-hq-dataset/val_source_256/
+cat celeba-hq-dataset/visual_test_shuffled.flist | xargs -I {} mv celeba-hq-dataset/data256x256/{} celeba-hq-dataset/visual_test_source_256/
 
 
 # create location config celeba.yaml
