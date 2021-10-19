@@ -32,17 +32,6 @@ optimizers:
     kind: adam
     lr: 0.0001
 
-visualizer:  # override only keys, the rest parameters are kept from defaults/visualizer
-  key_order:
-    - image
-    - predicted_image
-    - discr_output_fake
-    - discr_output_real
-    - inpainted
-  rescale_keys:
-    - discr_output_fake
-    - discr_output_real
-
 defaults:
   - location: docker
   - data: abl-02-thin-bb
