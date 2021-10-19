@@ -30,16 +30,6 @@ optimizers:
   discriminator:
     kind: adam
     lr: 0.0001
-visualizer:
-  key_order:
-  - image
-  - predicted_image
-  - discr_output_fake
-  - discr_output_real
-  - inpainted
-  rescale_keys:
-  - discr_output_fake
-  - discr_output_real
 
 generator:
   kind: ffc_resnet

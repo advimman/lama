@@ -1,16 +1,5 @@
 run_title: ''
 
-visualizer:
-  key_order:
-  - image
-  - predicted_image
-  - discr_output_fake
-  - discr_output_real
-  - inpainted
-  rescale_keys:
-  - discr_output_fake
-  - discr_output_real
-
 trainer:
   kwargs:
     gpus: -1
@@ -27,7 +16,6 @@ trainer:
     num_sanity_val_steps: 8
     replace_sampler_ddp: false
     benchmark: true
-    resume_from_checkpoint: /group-volume/User-Driven-Content-Generation/e.logacheva/CelebA-HQ-inpainting/experiments/e.logacheva_2021-10-12_21-37-20_train_ablv2_work_no_segmpl_csdilirpl_celeba_csdilirpl1_new/models/last.ckpt
   checkpoint_kwargs:
     verbose: true
     save_top_k: 5

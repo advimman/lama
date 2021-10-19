@@ -10,17 +10,6 @@ generator:
   conv_kind: default
   add_out_act: sigmoid
 
-visualizer:
-  key_order:
-  - image
-  - predicted_image
-  - discr_output_fake
-  - discr_output_real
-  - inpainted
-  rescale_keys:
-  - discr_output_fake
-  - discr_output_real
-
 training_model:
   kind: default
   visualize_each_iters: 1000
