@@ -10,9 +10,7 @@ losses:
     weight_missing: 0
     weight_known: 10
   perceptual:
-    weight: 0.03
-    kwargs:
-      metric: l2
+    weight: 0
   adversarial:
     kind: r1
     weight: 10
@@ -21,8 +19,9 @@ losses:
     allow_scale_mask: true
   feature_matching:
     weight: 100
-  segm_pl:
-    weight: 0
+  resnet_pl:
+    weight: 30
+    weights_path: ${env:TORCH_HOME}
 optimizers:
   generator:
     kind: adam

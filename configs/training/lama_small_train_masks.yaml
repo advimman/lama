@@ -33,7 +33,7 @@ optimizers:
 
 defaults:
   - location: docker
-  - data: abl-04-256-mh-dist
+  - data: abl-02-thin-bb
   - generator: pix2pixhd_sigmoid
   - discriminator: pix2pixhd_nlayer
   - visualizer: directory
