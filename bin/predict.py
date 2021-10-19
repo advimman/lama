@@ -47,6 +47,7 @@ def main(predict_config: OmegaConf):
             train_config = OmegaConf.create(yaml.safe_load(f))
         
         train_config.training_model.predict_only = True
+        train_config.visualizer.kind = 'noop'
 
         out_ext = predict_config.get('out_ext', '.png')
 
