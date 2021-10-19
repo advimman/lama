@@ -1,39 +1,5 @@
 run_title: ''
 
-visualizer:
-  kind: directory
-  outdir: ./visualizer-output/celeba/train_ablv2_work_no_segmpl_csirpl_celeba_csirpl03_new/samples
-  key_order:
-  - image
-  - predicted_image
-  - discr_output_fake
-  - discr_output_real
-  - inpainted
-  rescale_keys:
-  - discr_output_fake
-  - discr_output_real
-trainer:
-  kwargs:
-    gpus: -1
-    accelerator: ddp
-    max_epochs: 40
-    gradient_clip_val: 1
-    log_gpu_memory: None
-    limit_train_batches: 25000
-    val_check_interval: 2600
-    log_every_n_steps: 250
-    precision: 32
-    terminate_on_nan: false
-    check_val_every_n_epoch: 1
-    num_sanity_val_steps: 8
-    replace_sampler_ddp: false
-  checkpoint_kwargs:
-    verbose: true
-    save_top_k: 5
-    save_last: true
-    period: 1
-    monitor: val_ssim_fid100_f1_total_mean
-    mode: max
 training_model:
   kind: default
   visualize_each_iters: 1000
@@ -57,18 +23,14 @@ losses:
     weight: 0.3
     arch_encoder: resnet50
     imagenet_weights: true
-optimizers:
-  generator:
-    kind: adam
-    lr: 0.001
-  discriminator:
-    kind: adam
-    lr: 0.0001
 
 defaults:
   - location: celeba
   - data: abl-04-256-mh-dist-celeba
-  - evaluator: default_inpainted
   - generator: pix2pixhd_global_sigmoid
   - discriminator: pix2pixhd_nlayer
+  - optimizers: default_optimizers
+  - visualizer: directory
+  - evaluator: default_inpainted
+  - trainer: any_gpu_large_ssim_ddp_final_celeba
   - hydra: overrides

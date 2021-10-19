@@ -209,8 +209,7 @@ On the host machine:
     bash fetch_data/celebahq_gen_masks.sh
 
     # Run training
-    # You can change bs with data.batch_size=10
-    python bin/train.py -cn ablv2_work_no_segmpl_csdilirpl_celeba_csdilirpl1_new location=celeba
+    python bin/train.py -cn lama-fourier-celeba data.batch_size=10
 
     # Infer model on thick/thin/medium masks in 256 and run evaluation 
     # like this:

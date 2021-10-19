@@ -24,12 +24,12 @@ losses:
     weights_path: ${env:TORCH_HOME}
 
 defaults:
-  - location: docker
-  - data: abl-04-256-mh-dist
-  - generator: pix2pixhd_global_sigmoid
+  - location: celeba
+  - data: abl-04-256-mh-dist-celeba
+  - generator: ffc_resnet_075
   - discriminator: pix2pixhd_nlayer
   - optimizers: default_optimizers
   - visualizer: directory
   - evaluator: default_inpainted
-  - trainer: any_gpu_large_ssim_ddp_final
+  - trainer: any_gpu_large_ssim_ddp_final_celeba
   - hydra: overrides
