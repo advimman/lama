@@ -9,15 +9,8 @@ generator:
   n_blocks: 15
   conv_kind: default
   add_out_act: sigmoid
-discriminator:
-  kind: pix2pixhd_nlayer
-  input_nc: 3
-  ndf: 64
-  n_layers: 4
 
 visualizer:
-  kind: directory
-  outdir: ./visualizer-output/big-lama-regular/samples
   key_order:
   - image
   - predicted_image
@@ -63,6 +56,8 @@ optimizers:
 defaults:
   - location: docker
   - data: abl-04-256-mh-dist
+  - discriminator: pix2pixhd_nlayer
+  - visualizer: directory
   - evaluator: default_inpainted
   - trainer: any_gpu_large_ssim_ddp_final
   - hydra: overrides

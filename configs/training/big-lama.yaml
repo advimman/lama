@@ -40,8 +40,6 @@ visualizer:
   rescale_keys:
   - discr_output_fake
   - discr_output_real
-  kind: directory
-  outdir: ./visualizer-output/big-lama/samples
 
 generator:
   kind: ffc_resnet
@@ -63,15 +61,12 @@ generator:
     ratio_gin: 0.75
     ratio_gout: ${generator.resnet_conv_kwargs.ratio_gin}
     enable_lfu: false
-discriminator:
-  kind: pix2pixhd_nlayer
-  input_nc: 3
-  ndf: 64
-  n_layers: 4
 
 defaults:
   - location: docker
   - data: abl-04-256-mh-dist
+  - discriminator: pix2pixhd_nlayer
+  - visualizer: directory
   - evaluator: default_inpainted
   - trainer: any_gpu_large_ssim_ddp_final
   - hydra: overrides

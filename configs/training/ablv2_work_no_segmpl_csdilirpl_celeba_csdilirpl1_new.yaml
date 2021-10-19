@@ -1,8 +1,6 @@
 run_title: ''
 
 visualizer:
-  kind: directory
-  outdir: ./visualizer-output/celeba/train_ablv2_work_no_segmpl_csdilirpl_celeba_csdilirpl1_new/samples
   key_order:
   - image
   - predicted_image
@@ -12,6 +10,7 @@ visualizer:
   rescale_keys:
   - discr_output_fake
   - discr_output_real
+
 trainer:
   kwargs:
     gpus: -1
@@ -69,7 +68,8 @@ optimizers:
 defaults:
   - location: celeba
   - data: abl-04-256-mh-dist-celeba
-  - evaluator: default_inpainted
   - generator: pix2pixhd_global_sigmoid
   - discriminator: pix2pixhd_nlayer
+  - visualizer: directory
+  - evaluator: default_inpainted
   - hydra: overrides

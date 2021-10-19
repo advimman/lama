@@ -39,26 +39,13 @@ visualizer:
   rescale_keys:
   - discr_output_fake
   - discr_output_real
-  kind: directory
-  outdir: ./visualizer-output/lama-regular/samples
 
-generator:
-  kind: pix2pixhd_global
-  input_nc: 4
-  output_nc: 3
-  ngf: 64
-  n_downsampling: 3
-  n_blocks: 9
-  conv_kind: default
-  add_out_act: sigmoid
-discriminator:
-  kind: pix2pixhd_nlayer
-  input_nc: 3
-  ndf: 64
-  n_layers: 4
 defaults:
   - location: docker
   - data: abl-04-256-mh-dist
+  - generator: pix2pixhd_sigmoid
+  - discriminator: pix2pixhd_nlayer
+  - visualizer: directory
   - evaluator: default_inpainted
   - trainer: any_gpu_large_ssim_ddp_final
   - hydra: overrides
