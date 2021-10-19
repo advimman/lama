@@ -22,19 +22,13 @@ losses:
   segm_pl:
     weight: 1
     imagenet_weights: true
-optimizers:
-  generator:
-    kind: adam
-    lr: 0.001
-  discriminator:
-    kind: adam
-    lr: 0.0001
 
 defaults:
   - location: celeba
   - data: abl-04-256-mh-dist-celeba
   - generator: pix2pixhd_global_sigmoid
   - discriminator: pix2pixhd_nlayer
+  - optimizers: default_optimizers
   - visualizer: directory
   - evaluator: default_inpainted
   - trainer: any_gpu_large_ssim_ddp_final_celeba

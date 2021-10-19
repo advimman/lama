@@ -22,19 +22,13 @@ losses:
   resnet_pl:
     weight: 30
     weights_path: ${env:TORCH_HOME}
-optimizers:
-  generator:
-    kind: adam
-    lr: 0.001
-  discriminator:
-    kind: adam
-    lr: 0.0001
 
 defaults:
   - location: docker
   - data: abl-04-256-mh-dist
   - generator: ffc_resnet_075
   - discriminator: pix2pixhd_nlayer
+  - optimizers: default_optimizers
   - visualizer: directory
   - evaluator: default_inpainted
   - trainer: any_gpu_large_ssim_ddp_final
