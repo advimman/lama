@@ -13,6 +13,9 @@ from pytorch_lightning import seed_everything
 
 LOGGER = logging.getLogger(__name__)
 
+import platform
+if platform.system() != 'Linux':
+    signal.SIGUSR1 = 1
 
 def check_and_warn_input_range(tensor, min_value, max_value, name):
     actual_min = tensor.min()
