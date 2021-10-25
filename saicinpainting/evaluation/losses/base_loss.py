@@ -64,7 +64,7 @@ class PairwiseScore(EvaluatorScore, ABC):
             group_results: None, if groups is None;
                 else dict {group_idx: {'mean': score mean among group, 'std': score std among group}}
         """
-        individual_values = torch.stack(states, dim=0).reshape(-1).cpu().numpy() if states is not None \
+        individual_values = torch.cat(states, dim=-1).reshape(-1).cpu().numpy() if states is not None \
             else self.individual_values
 
         total_results = {

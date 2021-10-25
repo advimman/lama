@@ -19,17 +19,18 @@ losses:
     allow_scale_mask: true
   feature_matching:
     weight: 100
-  resnet_pl:
-    weight: 30
-    weights_path: ${env:TORCH_HOME}
+  segm_pl:
+    weight: 0.3
+    arch_encoder: resnet50
+    imagenet_weights: true
 
 defaults:
-  - location: docker
-  - data: abl-04-256-mh-dist
+  - location: celeba
+  - data: abl-04-256-mh-dist-celeba
   - generator: pix2pixhd_global_sigmoid
   - discriminator: pix2pixhd_nlayer
   - optimizers: default_optimizers
   - visualizer: directory
   - evaluator: default_inpainted
-  - trainer: any_gpu_large_ssim_ddp_final
+  - trainer: any_gpu_large_ssim_ddp_final_celeba
   - hydra: overrides

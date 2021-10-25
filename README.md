@@ -12,7 +12,7 @@ Anastasia Remizova, Arsenii Ashukha, Aleksei Silvestrov, Naejin Kong, Harshith G
 LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than it saw during training (256x256), and achieves the excellent performance even in challenging scenarios, e.g. completion of periodic structures.</b>
 </p>
 
-[[Project page](https://saic-mdal.github.io/lama-project/)] [[arXiv](https://arxiv.org/abs/2109.07161)] [[Supplementary](https://ashukha.com/projects/lama_21/lama_supmat_2021.pdf)] [[BibTeX](https://senya-ashukha.github.io/projects/lama_21/paper.txt)]
+[[Project page](https://saic-mdal.github.io/lama-project/)] [[arXiv](https://arxiv.org/abs/2109.07161)] [[Supplementary](https://ashukha.com/projects/lama_21/lama_supmat_2021.pdf)] [[BibTeX](https://senya-ashukha.github.io/projects/lama_21/paper.txt)] [[Casual GAN Papers Summary](https://www.casualganpapers.com/large-masks-fourier-convolutions-inpainting/LaMa-explained.html)]
 
 <p align="center">
   <a href="https://colab.research.google.com/github/saic-mdal/lama/blob/master//colab/LaMa_inpainting.ipynb">
@@ -25,6 +25,15 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
 <p align="center">
   <img src="https://raw.githubusercontent.com/senya-ashukha/senya-ashukha.github.io/master/projects/lama_21/ezgif-4-0db51df695a8.gif" />
 </p>
+
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/senya-ashukha/senya-ashukha.github.io/master/projects/lama_21/gif_for_lightning_v1_white.gif" />
+</p>
+
+# Non-official 3rd party apps:
+(Feel free to share your app/implementation/demo by creating an issue)
+- [https://cleanup.pictures](https://cleanup.pictures/) - a simple interactive object removal tool by [@cyrildiagne](https://twitter.com/cyrildiagne)
 
 # Environment setup
 
@@ -190,9 +199,28 @@ Docker: TODO
 ## CelebA
 On the host machine:
 
-    TODO: download & prepare 
-    TODO: trian
-    TODO: eval
+    # Make shure you are in lama folder
+    cd lama
+    export TORCH_HOME=$(pwd) && export PYTHONPATH=.
+
+    # Download CelebA-HQ dataset
+    # Download data256x256.zip from https://drive.google.com/drive/folders/11Vz0fqHS2rXDb5pprgTjpD7S2BAJhi1P
+    
+    # unzip & split into train/test/visualization & create config for it
+    bash fetch_data/celebahq_dataset_prepare.sh
+
+    # generate masks for test and visual_test at the end of epoch
+    bash fetch_data/celebahq_gen_masks.sh
+
+    # Run training
+    python bin/train.py -cn lama-fourier-celeba data.batch_size=10
+
+    # Infer model on thick/thin/medium masks in 256 and run evaluation 
+    # like this:
+    python3 bin/predict.py \
+    model.path=$(pwd)/experiments/<user>_<date:time>_lama-fourier-celeba_/ \
+    indir=$(pwd)/celeba-hq-dataset/visual_test_256/random_thick_256/ \
+    outdir=$(pwd)/inference/celeba_random_thick_256 model.checkpoint=last.ckpt
     
     
 Docker: TODO
