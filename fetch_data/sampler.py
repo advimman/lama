@@ -21,7 +21,7 @@ print('...done')
 # ----------------------------------------------------------------------------------
 
 
-val_files_path = os.path.abspath('.') + '/places_standard_dataset/original/val/'
+val_files_path = os.path.abspath('.') + '/places_standard_dataset/original/val/val_large/'
 val_files = [val_files_path + image for image in os.listdir(val_files_path)]
 print(f'found {len(val_files)} images in {val_files_path}')
 
