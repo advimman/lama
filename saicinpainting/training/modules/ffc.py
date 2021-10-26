@@ -113,60 +113,9 @@ class FourierUnit(nn.Module):
         return output
 
 
-class SeparableFourierUnit(nn.Module):
-
-    def __init__(self, in_channels, out_channels, groups=1, kernel_size=3):
-        # bn_layer not used
-        super(SeparableFourierUnit, self).__init__()
-        self.groups = groups
-        row_out_channels = out_channels // 2
-        col_out_channels = out_channels - row_out_channels
-        self.row_conv = torch.nn.Conv2d(in_channels=in_channels * 2,
-                                        out_channels=row_out_channels * 2,
-                                        kernel_size=(kernel_size, 1),  # kernel size is always like this, but the data will be transposed
-                                        stride=1, padding=(kernel_size // 2, 0),
-                                        padding_mode='reflect',
-                                        groups=self.groups, bias=False)
-        self.col_conv = torch.nn.Conv2d(in_channels=in_channels * 2,
-                                        out_channels=col_out_channels * 2,
-                                        kernel_size=(kernel_size, 1),  # kernel size is always like this, but the data will be transposed
-                                        stride=1, padding=(kernel_size // 2, 0),
-                                        padding_mode='reflect',
-                                        groups=self.groups, bias=False)
-        self.row_bn = torch.nn.BatchNorm2d(row_out_channels * 2)
-        self.col_bn = torch.nn.BatchNorm2d(col_out_channels * 2)
-        self.relu = torch.nn.ReLU(inplace=True)
-
-    def process_branch(self, x, conv, bn):
-        batch = x.shape[0]
-
-        r_size = x.size()
-        # (batch, c, h, w/2+1, 2)
-        ffted = torch.fft.rfft(x, norm="ortho")
-        ffted = torch.stack((ffted.real, ffted.imag), dim=-1)
-        ffted = ffted.permute(0, 1, 4, 2, 3).contiguous()  # (batch, c, 2, h, w/2+1)
-        ffted = ffted.view((batch, -1,) + ffted.size()[3:])
-
-        ffted = self.relu(bn(conv(ffted)))
-
-        ffted = ffted.view((batch, -1, 2,) + ffted.size()[2:]).permute(
-            0, 1, 3, 4, 2).contiguous()  # (batch,c, t, h, w/2+1, 2)
-        ffted = torch.complex(ffted[..., 0], ffted[..., 1])
-
-        output = torch.fft.irfft(ffted, s=x.shape[-1:], norm="ortho")
-        return output
-
-
-    def forward(self, x):
-        rowwise = self.process_branch(x, self.row_conv, self.row_bn)
-        colwise = self.process_branch(x.permute(0, 1, 3, 2), self.col_conv, self.col_bn).permute(0, 1, 3, 2)
-        out = torch.cat((rowwise, colwise), dim=1)
-        return out
-
-
 class SpectralTransform(nn.Module):
 
-    def __init__(self, in_channels, out_channels, stride=1, groups=1, enable_lfu=True, separable_fu=False, **fu_kwargs):
+    def __init__(self, in_channels, out_channels, stride=1, groups=1, enable_lfu=True, **fu_kwargs):
         # bn_layer not used
         super(SpectralTransform, self).__init__()
         self.enable_lfu = enable_lfu
@@ -182,11 +131,10 @@ class SpectralTransform(nn.Module):
             nn.BatchNorm2d(out_channels // 2),
             nn.ReLU(inplace=True)
         )
-        fu_class = SeparableFourierUnit if separable_fu else FourierUnit
-        self.fu = fu_class(
+        self.fu = FourierUnit(
             out_channels // 2, out_channels // 2, groups, **fu_kwargs)
         if self.enable_lfu:
-            self.lfu = fu_class(
+            self.lfu = FourierUnit(
                 out_channels // 2, out_channels // 2, groups)
         self.conv2 = torch.nn.Conv2d(
             out_channels // 2, out_channels, kernel_size=1, groups=groups, bias=False)
