@@ -242,6 +242,28 @@ Docker: TODO
 ## Create your data
 On the host machine:
 
+    1. train/val/visual split
+    2. mask generation
+    3. config: suffixes
+    4. run training of lama-fourier
+
+    # Make shure you are in lama folder
+    cd lama
+    export TORCH_HOME=$(pwd) && export PYTHONPATH=.
+
+    # You need to prepare following image folders:
+    $ ls my_dataset
+    train
+    val
+    visual_test
+
+    # During training LaMa generates random masks for the train data on the flight
+    # But we have to prepare fixed masks for validation at the end of epoch and visual test
+
+    image1_mask001.png
+    image1.png
+
+
 Explain explain explain
 
     TODO: format
