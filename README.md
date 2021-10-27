@@ -259,8 +259,8 @@ On the host machine:
     eval_source # 2000 or more images
 
     # LaMa generates random masks for the train data on the flight,
-    # but we have to prepare fixed masks for test, val and visual_test, 
-    # which is performed at the end of each epoch.
+    # but needs fixed masks for test and visual_test for consistency of evaluation.
+
     # Suppose, we want to evaluate and pick best models on 512x512 val dataset:
 
     python3 bin/gen_mask_dataset.py \
@@ -296,7 +296,6 @@ On the host machine:
     my_dataset/eval_source/ \
     my_dataset/eval/random_<size>_512/  #thick, thin, medium
     ...
-    ...
 
     No we generate config file which locate these folders:
 
@@ -307,7 +306,7 @@ On the host machine:
     mv my_dataset.yaml ${PWD}/configs/training/location/
 
     # Run training
-    python bin/train.py -cn lama-fourier location=my_dataset my_dataset.yaml data.batch_size=10
+    python bin/train.py -cn lama-fourier location=my_dataset data.batch_size=10
 
     # Evaluation: LaMa training procedure picks best few models according to 
     # scores on my_dataset/val_source/ 
