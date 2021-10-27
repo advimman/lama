@@ -254,14 +254,42 @@ On the host machine:
     # You need to prepare following image folders:
     $ ls my_dataset
     train
-    val
-    visual_test
+    val_source
+    visual_test_source
 
-    # During training LaMa generates random masks for the train data on the flight
-    # But we have to prepare fixed masks for validation at the end of epoch and visual test
+    # During training LaMa generates random masks for the train data on the flight,
+    # but we have to prepare fixed masks for validation and visual_test at the end of epoch.
 
-    image1_mask001.png
-    image1.png
+    # Suppose, we want to evaluate and pick best models on 512x512 val dataset.
+    # We run mask generator:
+
+    python3 bin/gen_mask_dataset.py \
+    $(pwd)/configs/data_gen/random_thick_512.yaml \
+    my_dataset/val_source/ \
+    my_dataset/val_512/random_thick_512/
+
+    python3 bin/gen_mask_dataset.py \
+    $(pwd)/configs/data_gen/random_thin_512.yaml \
+    my_dataset/val_source/ \
+    my_dataset/val_512/random_thin_512/
+
+    python3 bin/gen_mask_dataset.py \
+    $(pwd)/configs/data_gen/random_medium_512.yaml \
+    my_dataset/val_source/ \
+    my_dataset/val_512/random_medium_512/
+
+    # So the generator will resize and crop val images and generate masks:
+    
+    ls my_dataset/val_512/random_medium_512/
+    image1_crop000_mask000.png
+    image1_crop000.png
+    image2_crop000_mask000.png
+    image2_crop000.png
+    ...
+
+
+    # 
+
 
 
 Explain explain explain
