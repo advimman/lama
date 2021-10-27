@@ -259,7 +259,7 @@ On the host machine:
     eval_source # 2000 or more images
 
     # LaMa generates random masks for the train data on the flight,
-    # but we have to prepare fixed masks for validation and visual_test, 
+    # but we have to prepare fixed masks for test, val and visual_test, 
     # which is performed at the end of each epoch.
     # Suppose, we want to evaluate and pick best models on 512x512 val dataset:
 
