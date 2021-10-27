@@ -258,7 +258,6 @@ On the host machine:
     # LaMa generates random masks for the train data on the flight,
     # but we have to prepare fixed masks for validation and visual_test.
     # Suppose, we want to evaluate and pick best models on 512x512 val dataset.
-    # We run mask generator:
 
     python3 bin/gen_mask_dataset.py \
     $(pwd)/configs/data_gen/random_thick_512.yaml \ # thick, thin, medium
