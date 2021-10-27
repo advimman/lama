@@ -242,9 +242,6 @@ Docker: TODO
 ## Create your data
 On the host machine:
 
-    3. config: suffixes
-    4. run training of lama-fourier
-
     # Make shure you are in lama folder
     cd lama
     export TORCH_HOME=$(pwd) && export PYTHONPATH=.
@@ -260,9 +257,9 @@ On the host machine:
     # Suppose, we want to evaluate and pick best models on 512x512 val dataset.
 
     python3 bin/gen_mask_dataset.py \
-    $(pwd)/configs/data_gen/random_thick_512.yaml \ # thick, thin, medium
+    $(pwd)/configs/data_gen/random_<size>_512.yaml \ # thick, thin, medium
     my_dataset/val_source/ \
-    my_dataset/val/random_thick_512/ # thick, thin, medium
+    my_dataset/val/random_<size>_512.yaml # thick, thin, medium
 
     # So the generator will resize and crop val images and generate masks:
     ls my_dataset/val/random_medium_512/
@@ -274,9 +271,9 @@ On the host machine:
 
     # And we do the same for thick, thin, medium for visual_test folder:
     python3 bin/gen_mask_dataset.py \
-    $(pwd)/configs/data_gen/random_thick_512.yaml \  #thick, thin, medium
+    $(pwd)/configs/data_gen/random_<size>_512.yaml \  #thick, thin, medium
     my_dataset/visual_test_source/ \
-    my_dataset/visual_test/random_thick_512/  #thick, thin, medium
+    my_dataset/visual_test/random_<size>_512/  #thick, thin, medium
     ...
 
     ls my_dataset/visual_test/random_thick_512/
