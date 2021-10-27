@@ -269,6 +269,7 @@ On the host machine:
     my_dataset/val/random_<size>_512.yaml # thick, thin, medium
 
     # So the generator will resize and crop val images and generate masks:
+    
     ls my_dataset/val/random_medium_512/
     image1_crop000_mask000.png
     image1_crop000.png
@@ -277,6 +278,7 @@ On the host machine:
     ...
 
     # And we do the same for thick, thin, medium for visual_test folder:
+
     python3 bin/gen_mask_dataset.py \
     $(pwd)/configs/data_gen/random_<size>_512.yaml \  #thick, thin, medium
     my_dataset/visual_test_source/ \
@@ -291,14 +293,16 @@ On the host machine:
     ...
 
     # Same process for eval_source image folder:
+    
     python3 bin/gen_mask_dataset.py \
     $(pwd)/configs/data_gen/random_<size>_512.yaml \  #thick, thin, medium
     my_dataset/eval_source/ \
     my_dataset/eval/random_<size>_512/  #thick, thin, medium
     ...
 
-    No we generate config file which locate these folders:
 
+    # Generate config file which locate these folders:
+    
     touch my_dataset.yaml
     echo "data_root_dir: my_dataset/" >> my_dataset.yaml
     echo "out_root_dir: $(pwd)/experiments/" my_dataset.yaml
