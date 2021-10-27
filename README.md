@@ -242,8 +242,6 @@ Docker: TODO
 ## Create your data
 On the host machine:
 
-    1. train/val/visual split
-    2. mask generation
     3. config: suffixes
     4. run training of lama-fourier
 
@@ -259,27 +257,15 @@ On the host machine:
 
     # During training LaMa generates random masks for the train data on the flight,
     # but we have to prepare fixed masks for validation and visual_test at the end of epoch.
-
     # Suppose, we want to evaluate and pick best models on 512x512 val dataset.
     # We run mask generator:
 
     python3 bin/gen_mask_dataset.py \
-    $(pwd)/configs/data_gen/random_thick_512.yaml \
+    $(pwd)/configs/data_gen/random_thick_512.yaml \ # thick, thin, medium
     my_dataset/val_source/ \
-    my_dataset/val_512/random_thick_512/
-
-    python3 bin/gen_mask_dataset.py \
-    $(pwd)/configs/data_gen/random_thin_512.yaml \
-    my_dataset/val_source/ \
-    my_dataset/val_512/random_thin_512/
-
-    python3 bin/gen_mask_dataset.py \
-    $(pwd)/configs/data_gen/random_medium_512.yaml \
-    my_dataset/val_source/ \
-    my_dataset/val_512/random_medium_512/
+    my_dataset/val_512/random_thick_512/ # thick, thin, medium
 
     # So the generator will resize and crop val images and generate masks:
-    
     ls my_dataset/val_512/random_medium_512/
     image1_crop000_mask000.png
     image1_crop000.png
@@ -287,10 +273,31 @@ On the host machine:
     image2_crop000.png
     ...
 
+    # And we do the same for thick, thin, medium for visual_test folder:
+    python3 bin/gen_mask_dataset.py \
+    $(pwd)/configs/data_gen/random_thick_512.yaml \  #thick, thin, medium
+    my_dataset/visual_test_source/ \
+    my_dataset/visual_test_512/random_thick_512/  #thick, thin, medium
+    ...
 
-    # 
+    ls my_dataset/visual_test_512/random_thick_512/
+    image1_crop000_mask000.png
+    image1_crop000.png
+    image2_crop000_mask000.png
+    image2_crop000.png
+    ...
+
+    No we generate config file which locate these folders:
+
+    touch my_dataset.yaml
+    echo "# @package _group_" >> my_dataset.yaml
+    echo "data_root_dir: my_dataset/" >> my_dataset.yaml
+    echo "out_root_dir: $(pwd)/experiments/" my_dataset.yaml
+    echo "tb_dir: $(pwd)/tb_logs/" my_dataset.yaml
 
 
+
+    
 
 Explain explain explain
 
