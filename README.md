@@ -255,8 +255,8 @@ On the host machine:
     val_source
     visual_test_source
 
-    # During training LaMa generates random masks for the train data on the flight,
-    # but we have to prepare fixed masks for validation and visual_test at the end of epoch.
+    # LaMa generates random masks for the train data on the flight,
+    # but we have to prepare fixed masks for validation and visual_test.
     # Suppose, we want to evaluate and pick best models on 512x512 val dataset.
     # We run mask generator:
 
