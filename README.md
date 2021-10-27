@@ -262,10 +262,10 @@ On the host machine:
     python3 bin/gen_mask_dataset.py \
     $(pwd)/configs/data_gen/random_thick_512.yaml \ # thick, thin, medium
     my_dataset/val_source/ \
-    my_dataset/val_512/random_thick_512/ # thick, thin, medium
+    my_dataset/val/random_thick_512/ # thick, thin, medium
 
     # So the generator will resize and crop val images and generate masks:
-    ls my_dataset/val_512/random_medium_512/
+    ls my_dataset/val/random_medium_512/
     image1_crop000_mask000.png
     image1_crop000.png
     image2_crop000_mask000.png
@@ -276,10 +276,10 @@ On the host machine:
     python3 bin/gen_mask_dataset.py \
     $(pwd)/configs/data_gen/random_thick_512.yaml \  #thick, thin, medium
     my_dataset/visual_test_source/ \
-    my_dataset/visual_test_512/random_thick_512/  #thick, thin, medium
+    my_dataset/visual_test/random_thick_512/  #thick, thin, medium
     ...
 
-    ls my_dataset/visual_test_512/random_thick_512/
+    ls my_dataset/visual_test/random_thick_512/
     image1_crop000_mask000.png
     image1_crop000.png
     image2_crop000_mask000.png
@@ -289,12 +289,13 @@ On the host machine:
     No we generate config file which locate these folders:
 
     touch my_dataset.yaml
-    echo "# @package _group_" >> my_dataset.yaml
     echo "data_root_dir: my_dataset/" >> my_dataset.yaml
     echo "out_root_dir: $(pwd)/experiments/" my_dataset.yaml
     echo "tb_dir: $(pwd)/tb_logs/" my_dataset.yaml
+    mv my_dataset.yaml ${PWD}/configs/training/location/
 
-
+    # Run training
+    python bin/train.py -cn lama-fourier location=my_dataset my_dataset.yaml data.batch_size=10
 
     
 
