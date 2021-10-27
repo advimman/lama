@@ -240,6 +240,11 @@ On the host machine:
 Docker: TODO
 
 ## Create your data
+
+Please check bash scripts for data preparation and mask generation from CelebaHQ section,
+in case you stuck at one of the following steps.
+
+
 On the host machine:
 
     # Make shure you are in lama folder
@@ -249,12 +254,14 @@ On the host machine:
     # You need to prepare following image folders:
     $ ls my_dataset
     train
-    val_source
-    visual_test_source
+    val_source # 2000 or more images
+    visual_test_source # 100 or more images
+    eval_source # 2000 or more images
 
     # LaMa generates random masks for the train data on the flight,
-    # but we have to prepare fixed masks for validation and visual_test.
-    # Suppose, we want to evaluate and pick best models on 512x512 val dataset.
+    # but we have to prepare fixed masks for validation and visual_test, 
+    # which is performed at the end of each epoch.
+    # Suppose, we want to evaluate and pick best models on 512x512 val dataset:
 
     python3 bin/gen_mask_dataset.py \
     $(pwd)/configs/data_gen/random_<size>_512.yaml \ # thick, thin, medium
@@ -283,6 +290,14 @@ On the host machine:
     image2_crop000.png
     ...
 
+    # Same process for eval_source image folder:
+    python3 bin/gen_mask_dataset.py \
+    $(pwd)/configs/data_gen/random_<size>_512.yaml \  #thick, thin, medium
+    my_dataset/eval_source/ \
+    my_dataset/eval/random_<size>_512/  #thick, thin, medium
+    ...
+    ...
+
     No we generate config file which locate these folders:
 
     touch my_dataset.yaml
@@ -294,7 +309,28 @@ On the host machine:
     # Run training
     python bin/train.py -cn lama-fourier location=my_dataset my_dataset.yaml data.batch_size=10
 
-    
+    # Evaluation: LaMa training procedure picks best few models according to 
+    # scores on my_dataset/val_source/ 
+
+    # To evaluate one of your best models (i.e. at epoch=32) 
+    # on previously unseen data do the following 
+    # for thin, thick and medium:
+
+    # infer
+    python3 bin/predict.py \
+    model.path=$(pwd)/experiments/<user>_<date:time>_lama-fourier_/ \
+    indir=$(pwd)/my_dataset/eval/random_<size>_512/ \
+    outdir=$(pwd)/inference/my_dataset/random_<size>_512 \
+    model.checkpoint=epoch32.ckpt
+
+    # metrics
+    python3 bin/evaluate_predicts.py \
+    $(pwd)/configs/eval_2gpu.yaml \
+    $(pwd)/my_dataset/eval/random_<size>_512/ \
+    $(pwd)/inference/my_dataset/random_<size>_512 \
+    $(pwd)/inference/my_dataset/random_<size>_512_metrics.csv
+
+
 
 Explain explain explain
 
