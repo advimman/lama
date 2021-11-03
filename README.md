@@ -242,7 +242,7 @@ Docker: TODO
 ## Create your data
 
 Please check bash scripts for data preparation and mask generation from CelebaHQ section,
-in case you stuck at one of the following steps.
+if you stuck at one of the following steps.
 
 
 On the host machine:
@@ -261,14 +261,19 @@ On the host machine:
     # LaMa generates random masks for the train data on the flight,
     # but needs fixed masks for test and visual_test for consistency of evaluation.
 
-    # Suppose, we want to evaluate and pick best models on 512x512 val dataset:
+    # Suppose, we want to evaluate and pick best models 
+    # on 512x512 val dataset  with thick/thin/medium masks 
+    # And your images have .jpg extention:
 
     python3 bin/gen_mask_dataset.py \
     $(pwd)/configs/data_gen/random_<size>_512.yaml \ # thick, thin, medium
     my_dataset/val_source/ \
     my_dataset/val/random_<size>_512.yaml # thick, thin, medium
+    --ext jpg
 
-    # So the generator will resize and crop val images and generate masks:
+    # So the mask generator will: 
+    # 1. resize and crop val images and save them as .png
+    # 2. generate masks
     
     ls my_dataset/val/random_medium_512/
     image1_crop000_mask000.png
@@ -277,12 +282,13 @@ On the host machine:
     image2_crop000.png
     ...
 
-    # And we do the same for thick, thin, medium for visual_test folder:
+    # Generate thick, thin, medium masks for visual_test folder:
 
     python3 bin/gen_mask_dataset.py \
     $(pwd)/configs/data_gen/random_<size>_512.yaml \  #thick, thin, medium
     my_dataset/visual_test_source/ \
     my_dataset/visual_test/random_<size>_512/  #thick, thin, medium
+    --ext jpg
     ...
 
     ls my_dataset/visual_test/random_thick_512/
@@ -298,16 +304,33 @@ On the host machine:
     $(pwd)/configs/data_gen/random_<size>_512.yaml \  #thick, thin, medium
     my_dataset/eval_source/ \
     my_dataset/eval/random_<size>_512/  #thick, thin, medium
+    --ext jpg
     ...
 
 
-    # Generate config file which locate these folders:
+    # Generate location config file which locate these folders:
     
     touch my_dataset.yaml
     echo "data_root_dir: my_dataset/" >> my_dataset.yaml
     echo "out_root_dir: $(pwd)/experiments/" my_dataset.yaml
     echo "tb_dir: $(pwd)/tb_logs/" my_dataset.yaml
     mv my_dataset.yaml ${PWD}/configs/training/location/
+
+
+    # Check data config for consistency with my_dataset folder structure:
+    $ cat ${PWD}/configs/training/data/abl-04-256-mh-dist
+    ...
+    train:
+      indir: ${location.data_root_dir}/train
+      ...
+    val:
+      indir: ${location.data_root_dir}/val
+      img_suffix: .png
+    visual_test:
+      indir: ${location.data_root_dir}/visual_test
+      img_suffix: .png
+
+    # If 
 
     # Run training
     python bin/train.py -cn lama-fourier location=my_dataset data.batch_size=10
