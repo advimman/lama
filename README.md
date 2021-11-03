@@ -289,7 +289,7 @@ On the host machine:
     my_dataset/visual_test_source/ \
     my_dataset/visual_test/random_<size>_512/  #thick, thin, medium
     --ext jpg
-    ...
+    
 
     ls my_dataset/visual_test/random_thick_512/
     image1_crop000_mask000.png
@@ -305,7 +305,7 @@ On the host machine:
     my_dataset/eval_source/ \
     my_dataset/eval/random_<size>_512/  #thick, thin, medium
     --ext jpg
-    ...
+    
 
 
     # Generate location config file which locate these folders:
