@@ -268,7 +268,7 @@ On the host machine:
     python3 bin/gen_mask_dataset.py \
     $(pwd)/configs/data_gen/random_<size>_512.yaml \ # thick, thin, medium
     my_dataset/val_source/ \
-    my_dataset/val/random_<size>_512.yaml # thick, thin, medium
+    my_dataset/val/random_<size>_512.yaml \# thick, thin, medium
     --ext jpg
 
     # So the mask generator will: 
@@ -287,7 +287,7 @@ On the host machine:
     python3 bin/gen_mask_dataset.py \
     $(pwd)/configs/data_gen/random_<size>_512.yaml \  #thick, thin, medium
     my_dataset/visual_test_source/ \
-    my_dataset/visual_test/random_<size>_512/  #thick, thin, medium
+    my_dataset/visual_test/random_<size>_512/ \ #thick, thin, medium
     --ext jpg
     
 
@@ -303,7 +303,7 @@ On the host machine:
     python3 bin/gen_mask_dataset.py \
     $(pwd)/configs/data_gen/random_<size>_512.yaml \  #thick, thin, medium
     my_dataset/eval_source/ \
-    my_dataset/eval/random_<size>_512/  #thick, thin, medium
+    my_dataset/eval/random_<size>_512/ \ #thick, thin, medium
     --ext jpg
     
 
