@@ -1,7 +1,7 @@
-optimizers:
-    generator:
-      kind: adam
-      lr: 0.001
-    discriminator:
-      kind: adam
-      lr: 0.0001
+# @package _group_
+generator:
+  kind: adam
+  lr: 0.001
+discriminator:
+  kind: adam
+  lr: 0.0001

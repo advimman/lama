@@ -13,7 +13,7 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
 </p>
 
 [[Project page](https://saic-mdal.github.io/lama-project/)] [[arXiv](https://arxiv.org/abs/2109.07161)] [[Supplementary](https://ashukha.com/projects/lama_21/lama_supmat_2021.pdf)] [[BibTeX](https://senya-ashukha.github.io/projects/lama_21/paper.txt)] [[Casual GAN Papers Summary](https://www.casualganpapers.com/large-masks-fourier-convolutions-inpainting/LaMa-explained.html)]
-
+ 
 <p align="center">
   <a href="https://colab.research.google.com/github/saic-mdal/lama/blob/master//colab/LaMa_inpainting.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg"/>
@@ -34,7 +34,7 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
 # Non-official 3rd party apps:
 (Feel free to share your app/implementation/demo by creating an issue)
 - [https://cleanup.pictures](https://cleanup.pictures/) - a simple interactive object removal tool by [@cyrildiagne](https://twitter.com/cyrildiagne)
-
+- Integrated to [Huggingface Spaces](https://huggingface.co/spaces) with [Gradio](https://github.com/gradio-app/gradio). See demo: [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/akhaliq/lama) by [@AK391](https://github.com/AK391)
 # Environment setup
 
 Clone the repo:
@@ -434,3 +434,12 @@ If you found this code helpful, please consider citing:
   year={2021}
 }
 ```
+
+<div style="text-align:center" align="center">
+<br>
+<br>
+  <img loading="lazy"  height="50px" src="https://raw.githubusercontent.com/saic-mdal/lama-project/main/docs/img/samsung_ai.png" />
+</div>
+<br>
+<p style="font-weight:normal; font-size: 16pt;text-align:center"align="center"  >Copyright © 2021</p>
+<br>
