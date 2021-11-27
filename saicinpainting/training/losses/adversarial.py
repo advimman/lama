@@ -41,7 +41,7 @@ class BaseAdversarialLoss:
         :param mask: Tensor, actual mask, which was at input of generator when making fake_batch
         :return: total generator loss along with some values that might be interesting to log
         """
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def discriminator_loss(self, real_batch: torch.Tensor, fake_batch: torch.Tensor,
                            discr_real_pred: torch.Tensor, discr_fake_pred: torch.Tensor,
@@ -56,7 +56,7 @@ class BaseAdversarialLoss:
         :param mask: Tensor, actual mask, which was at input of generator when making fake_batch
         :return: total discriminator loss along with some values that might be interesting to log
         """
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def interpolate_mask(self, mask, shape):
         assert mask is not None
