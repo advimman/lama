@@ -1,4 +1,3 @@
-import random
 import colorsys
 
 import numpy as np
@@ -63,7 +62,6 @@ def generate_colors(nlabels, type='bright', first_color_black=False, last_color_
     # Display colorbar
     if verbose:
         from matplotlib import colors, colorbar
-        from matplotlib import pyplot as plt
         fig, ax = plt.subplots(1, 1, figsize=(15, 0.5))
 
         bounds = np.linspace(0, nlabels, nlabels + 1)

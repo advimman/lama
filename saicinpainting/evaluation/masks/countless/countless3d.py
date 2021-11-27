@@ -1,18 +1,9 @@
 from six.moves import range
-from PIL import Image
 import numpy as np
-import io
 import time
 import math
-import random
-import sys
-from collections import defaultdict
-from copy import deepcopy
 from itertools import combinations
 from functools import reduce
-from tqdm import tqdm
-
-from memory_profiler import profile
 
 def countless5(a,b,c,d,e):
   """First stage of generalizing from countless2d. 

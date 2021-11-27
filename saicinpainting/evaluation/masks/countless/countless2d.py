@@ -10,13 +10,11 @@ import six
 from six.moves import range
 from collections import defaultdict
 from functools import reduce
-import operator 
-import io
+import operator
 import os
 from PIL import Image
 import math
 import numpy as np
-import random
 import sys
 import time
 from tqdm import tqdm

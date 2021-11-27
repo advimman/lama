@@ -2,8 +2,6 @@ import logging
 from abc import abstractmethod, ABC
 
 import numpy as np
-import sklearn
-import sklearn.svm
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

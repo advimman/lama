@@ -7,7 +7,6 @@ import pytorch_lightning as ptl
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import DistributedSampler
 
 from saicinpainting.evaluation import make_evaluator
 from saicinpainting.training.data.datasets import make_default_train_dataloader, make_default_val_dataloader
