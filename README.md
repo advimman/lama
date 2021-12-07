@@ -183,7 +183,7 @@ On the host machine:
     bash fetch_data/places_standard_test_val_gen_masks.sh
 
     # Run training
-    python bin/train.py -cn lama-fourier location=places_standard
+    python3 bin/train.py -cn lama-fourier location=places_standard
 
     # To evaluate trained model and report metrics as in our paper
     # we need to sample previously unseen 30k images and generate masks for them
@@ -223,7 +223,7 @@ On the host machine:
     bash fetch_data/celebahq_gen_masks.sh
 
     # Run training
-    python bin/train.py -cn lama-fourier-celeba data.batch_size=10
+    python3 bin/train.py -cn lama-fourier-celeba data.batch_size=10
 
     # Infer model on thick/thin/medium masks in 256 and run evaluation 
     # like this:
@@ -342,7 +342,7 @@ On the host machine:
 
 
     # Run training
-    python bin/train.py -cn lama-fourier location=my_dataset data.batch_size=10
+    python3 bin/train.py -cn lama-fourier location=my_dataset data.batch_size=10
 
     # Evaluation: LaMa training procedure picks best few models according to 
     # scores on my_dataset/val/ 
