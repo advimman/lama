@@ -360,7 +360,7 @@ On the host machine:
 
     # metrics calculation:
     python3 bin/evaluate_predicts.py \
-    $(pwd)/configs/eval_2gpu.yaml \
+    $(pwd)/configs/eval2_gpu.yaml \
     $(pwd)/my_dataset/eval/random_<size>_512/ \
     $(pwd)/inference/my_dataset/random_<size>_512 \
     $(pwd)/inference/my_dataset/random_<size>_512_metrics.csv
