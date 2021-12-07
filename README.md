@@ -162,6 +162,10 @@ Then download models for _perceptual loss_:
 
 
 ## Places
+
+⚠️ NB: FID/SSIM/LPIPS metric values for Places that we see in LaMa paper are computed on 30000 images that we produce in evaluation section below.
+For more details on evaluation data check [[Section 3. Dataset splits in Supplementary](https://ashukha.com/projects/lama_21/lama_supmat_2021.pdf#subsection.3.1)]  ⚠️
+
 On the host machine:
 
     # Download data from http://places2.csail.mit.edu/download.html
@@ -170,18 +174,20 @@ On the host machine:
     wget http://data.csail.mit.edu/places/places365/val_large.tar
     wget http://data.csail.mit.edu/places/places365/test_large.tar
 
-    # Unpack and etc.
+    # Unpack train/test/val data and create .yaml config for it
     bash fetch_data/places_standard_train_prepare.sh
     bash fetch_data/places_standard_test_val_prepare.sh
-    bash fetch_data/places_standard_evaluation_prepare_data.sh
     
     # Sample images for test and viz at the end of epoch
     bash fetch_data/places_standard_test_val_sample.sh
     bash fetch_data/places_standard_test_val_gen_masks.sh
 
     # Run training
-    # You can change bs with data.batch_size=10
-    python bin/train.py -cn lama-fourier location=places_standard
+    python3 bin/train.py -cn lama-fourier location=places_standard
+
+    # To evaluate trained model and report metrics as in our paper
+    # we need to sample previously unseen 30k images and generate masks for them
+    bash fetch_data/places_standard_evaluation_prepare_data.sh
     
     # Infer model on thick/thin/medium masks in 256 and 512 and run evaluation 
     # like this:
@@ -191,9 +197,10 @@ On the host machine:
     outdir=$(pwd)/inference/random_thick_512 model.checkpoint=last.ckpt
 
     python3 bin/evaluate_predicts.py \
-    $(pwd)/configs/eval_2gpu.yaml \
+    $(pwd)/configs/eval2_gpu.yaml \
     $(pwd)/places_standard_dataset/evaluation/random_thick_512/ \
-    $(pwd)/inference/random_thick_512 $(pwd)/inference/random_thick_512_metrics.csv
+    $(pwd)/inference/random_thick_512 \
+    $(pwd)/inference/random_thick_512_metrics.csv
 
     
     
@@ -216,7 +223,7 @@ On the host machine:
     bash fetch_data/celebahq_gen_masks.sh
 
     # Run training
-    python bin/train.py -cn lama-fourier-celeba data.batch_size=10
+    python3 bin/train.py -cn lama-fourier-celeba data.batch_size=10
 
     # Infer model on thick/thin/medium masks in 256 and run evaluation 
     # like this:
@@ -335,7 +342,7 @@ On the host machine:
 
 
     # Run training
-    python bin/train.py -cn lama-fourier location=my_dataset data.batch_size=10
+    python3 bin/train.py -cn lama-fourier location=my_dataset data.batch_size=10
 
     # Evaluation: LaMa training procedure picks best few models according to 
     # scores on my_dataset/val/ 
@@ -353,7 +360,7 @@ On the host machine:
 
     # metrics calculation:
     python3 bin/evaluate_predicts.py \
-    $(pwd)/configs/eval_2gpu.yaml \
+    $(pwd)/configs/eval2_gpu.yaml \
     $(pwd)/my_dataset/eval/random_<size>_512/ \
     $(pwd)/inference/my_dataset/random_<size>_512 \
     $(pwd)/inference/my_dataset/random_<size>_512_metrics.csv
