@@ -163,9 +163,8 @@ Then download models for _perceptual loss_:
 
 ## Places
 
-NB: Here below we provide scripts to reproduce paper results. 
-    For more details on model evaluation and evaluation data check 
-    Section 3 Dataset splits in supplementary material!  
+⚠️ NB: FID/SSIM/LPIPS metric values for Places that we see in LaMa paper are computed on 30000 images that we produce in evaluation section below.
+For more details on evaluation data check [[Section 3. Dataset splits in Supplementary](https://ashukha.com/projects/lama_21/lama_supmat_2021.pdf#subsection.3.1)]  ⚠️
 
 On the host machine:
 
