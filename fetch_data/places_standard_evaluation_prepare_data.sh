@@ -7,7 +7,7 @@ mkdir -p places_standard_dataset/evaluation/random_thick_256/
 mkdir -p places_standard_dataset/evaluation/random_thin_256/
 mkdir -p places_standard_dataset/evaluation/random_medium_256/
 
-# 1. sample 2000 new images
+# 1. sample 30000 new images
 OUT=$(python3 fetch_data/eval_sampler.py)
 echo ${OUT}
 
