@@ -162,6 +162,11 @@ Then download models for _perceptual loss_:
 
 
 ## Places
+
+NB: Here below we provide scripts to reproduce paper results. 
+    For more details on model evaluation and evaluation data check 
+    Section 3 Dataset splits in supplementary material!  
+
 On the host machine:
 
     # Download data from http://places2.csail.mit.edu/download.html
