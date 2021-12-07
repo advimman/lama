@@ -182,7 +182,7 @@ On the host machine:
     python bin/train.py -cn lama-fourier location=places_standard
 
     # To evaluate trained model and report metrics as in our paper
-    # we sample 30k images and generate masks for them  
+    # we need to sample previously unseen 30k images and generate masks for them
     bash fetch_data/places_standard_evaluation_prepare_data.sh
     
     # Infer model on thick/thin/medium masks in 256 and 512 and run evaluation 
