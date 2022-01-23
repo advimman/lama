@@ -323,8 +323,8 @@ On the host machine:
     
     touch my_dataset.yaml
     echo "data_root_dir: $(pwd)/my_dataset/" >> my_dataset.yaml
-    echo "out_root_dir: $(pwd)/experiments/" my_dataset.yaml
-    echo "tb_dir: $(pwd)/tb_logs/" my_dataset.yaml
+    echo "out_root_dir: $(pwd)/experiments/" >> my_dataset.yaml
+    echo "tb_dir: $(pwd)/tb_logs/" >> my_dataset.yaml
     mv my_dataset.yaml ${PWD}/configs/training/location/
 
 
