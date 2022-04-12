@@ -76,6 +76,11 @@ def main(predict_config: OmegaConf):
                 batch = model(batch)
                 cur_res = batch[predict_config.out_key][0].permute(1, 2, 0).detach().cpu().numpy()
 
+                unpad_to_size = batch.get('unpad_to_size', None)
+                if unpad_to_size is not None:
+                    orig_height, orig_width = unpad_to_size
+                    cur_res = cur_res[:orig_height, :orig_width]
+
                 cur_res = np.clip(cur_res * 255, 0, 255).astype('uint8')
                 cur_res = cv2.cvtColor(cur_res, cv2.COLOR_RGB2BGR)
                 cv2.imwrite(cur_out_fname, cur_res)
