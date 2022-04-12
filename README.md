@@ -116,7 +116,7 @@ unzip LaMa_test_images.zip
  <summary>OR prepare your data:</summary>
 1) Create masks named as `[images_name]_maskXXX[image_suffix]`, put images and masks in the same folder. 
 
-- You can use the [script](#test_datasets) for random masks generation. 
+- You can use the [script](https://github.com/saic-mdal/lama/blob/main/bin/gen_mask_dataset.py) for random masks generation. 
 - Check the format of the files:
     ```    
     image1_mask001.png
