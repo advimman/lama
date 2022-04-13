@@ -2,7 +2,7 @@ FROM nvidia/cuda:10.2-runtime-ubuntu18.04
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y wget mc tmux nano build-essential rsync
+    apt-get install -y wget mc tmux nano build-essential rsync libgl1
 
 ARG USERNAME=user
 RUN apt-get install -y sudo && \
