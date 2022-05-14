@@ -73,6 +73,8 @@ def main(predict_config: OmegaConf):
             batch = default_collate([dataset[img_i]])
             if predict_config.get('refine', False):
                 assert 'unpad_to_size' in batch, "Unpadded size is required for the refinement"
+                # image unpadding is taken care of in the refiner, so that output image
+                # is same size as the input image
                 cur_res = refine_predict(batch, model, **predict_config.refiner)
                 cur_res = cur_res[0].permute(1,2,0).detach().cpu().numpy()
             else:
