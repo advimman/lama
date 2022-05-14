@@ -80,7 +80,7 @@ There are three options of an environment:
 Run
 ```
 cd lama
-export TORCH_HOME=$(pwd) && export PYTHONPATH=.
+export TORCH_HOME=$(pwd) && export PYTHONPATH=$(pwd)
 ```
 
 **1. Download pre-trained models**
@@ -160,7 +160,7 @@ Make sure you run:
 
 ```
 cd lama
-export TORCH_HOME=$(pwd) && export PYTHONPATH=.
+export TORCH_HOME=$(pwd) && export PYTHONPATH=$(pwd)
 ```
 
 Then download models for _perceptual loss_:
@@ -219,7 +219,7 @@ On the host machine:
 
     # Make shure you are in lama folder
     cd lama
-    export TORCH_HOME=$(pwd) && export PYTHONPATH=.
+    export TORCH_HOME=$(pwd) && export PYTHONPATH=$(pwd)
 
     # Download CelebA-HQ dataset
     # Download data256x256.zip from https://drive.google.com/drive/folders/11Vz0fqHS2rXDb5pprgTjpD7S2BAJhi1P
@@ -267,7 +267,7 @@ On the host machine:
 
     # Make shure you are in lama folder
     cd lama
-    export TORCH_HOME=$(pwd) && export PYTHONPATH=.
+    export TORCH_HOME=$(pwd) && export PYTHONPATH=$(pwd)
 
     # You need to prepare following image folders:
     $ ls my_dataset
