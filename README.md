@@ -33,7 +33,7 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
 
 # LaMa development
 (Feel free to share your paper by creating an issue)
-- Amazing results [video](https://www.youtube.com/watch?v=gEukhOheWgE) / code https://github.com/saic-mdal/lama/pull/112 / by Geomagical Labs (geomagical.com)
+- Amazing results [video](https://www.youtube.com/watch?v=gEukhOheWgE) / code https://github.com/saic-mdal/lama/pull/112 / by Geomagical Labs ([geomagical.com](geomagical.com))
 <p align="center">
   <img src="https://raw.githubusercontent.com/senya-ashukha/senya-ashukha.github.io/master/images/FeatureRefinement.png" />
 </p>
