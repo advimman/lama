@@ -153,6 +153,12 @@ bash docker/2_predict.sh $(pwd)/big-lama $(pwd)/LaMa_test_images $(pwd)/output d
 ```
 Docker cuda: TODO
 
+**4. Predict with Refinement**
+
+On the host machine:
+
+    python3 bin/predict.py refine=True model.path=$(pwd)/big-lama indir=$(pwd)/LaMa_test_images outdir=$(pwd)/output
+
 # Train and Eval
 
 ⚠️ Warning: The training is not fully tested yet, e.g., did not re-training after refactoring ⚠️
