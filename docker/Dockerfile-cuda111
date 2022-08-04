@@ -1,6 +1,7 @@
 FROM nvidia/cuda:11.1-runtime-ubuntu18.04
 
-RUN apt-get update && \
+RUN apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/3bf863cc.pub && \
+    apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y wget mc tmux nano build-essential rsync libgl1
 
