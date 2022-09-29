@@ -27,7 +27,8 @@ class JITWrapper(nn.Module):
 
 @hydra.main(config_path="../configs/prediction", config_name="default.yaml")
 def main(predict_config: OmegaConf):
-    register_debug_signal_handlers()  # kill -10 <pid> will result in traceback dumped into log
+    if sys.platform != 'win32':
+        register_debug_signal_handlers()  # kill -10 <pid> will result in traceback dumped into log
 
     train_config_path = os.path.join(predict_config.model.path, "config.yaml")
     with open(train_config_path, "r") as f:

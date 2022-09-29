@@ -31,7 +31,8 @@ def main(config: OmegaConf):
     try:
         need_set_deterministic = handle_deterministic_config(config)
 
-        register_debug_signal_handlers()  # kill -10 <pid> will result in traceback dumped into log
+        if sys.platform != 'win32':
+            register_debug_signal_handlers()  # kill -10 <pid> will result in traceback dumped into log
 
         is_in_ddp_subprocess = handle_ddp_parent_process()
 
