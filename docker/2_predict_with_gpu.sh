@@ -24,6 +24,7 @@ docker run \
     -v "$INPUT_LOCAL_DIR":/data/input \
     -v "$OUTPUT_LOCAL_DIR":/data/output \
     -u $(id -u):$(id -g) \
+    --gpus all \
     --name="lama-predict" \
     --rm \
     windj007/lama \
