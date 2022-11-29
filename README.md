@@ -48,6 +48,7 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
 - [LAMA-Magic-Eraser-Local](https://github.com/zhaoyun0071/LAMA-Magic-Eraser-Local) = a standalone inpainting application built with PyQt5 by [@zhaoyun0071](https://github.com/zhaoyun0071)
 - [Hama](https://www.hama.app/) - object removal with a smart brush which simplifies mask drawing.
 - [ModelScope](https://www.modelscope.cn/models/damo/cv_fft_inpainting_lama/summary) = the largest Model Community in Chinese by  [@chenbinghui1](https://github.com/chenbinghui1).
+- [Magic Photo Eraser](https://apps.apple.com/us/app/magic-photo-eraser/id1503539731) = iOS inpainting app.
 
 # Environment setup
 
