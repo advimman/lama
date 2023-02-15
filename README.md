@@ -161,9 +161,6 @@ On the host machine:
 
 # Train and Eval
 
-⚠️ Warning: The training is not fully tested yet, e.g., did not re-training after refactoring ⚠️
-
-
 Make sure you run:
 
 ```
