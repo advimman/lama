@@ -10,10 +10,10 @@ Anastasia Remizova, Arsenii Ashukha, Aleksei Silvestrov, Naejin Kong, Harshith G
 LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than it saw during training (256x256), and achieves the excellent performance even in challenging scenarios, e.g. completion of periodic structures.</b>
 </p>
 
-[[Project page](https://saic-mdal.github.io/lama-project/)] [[arXiv](https://arxiv.org/abs/2109.07161)] [[Supplementary](https://ashukha.com/projects/lama_21/lama_supmat_2021.pdf)] [[BibTeX](https://senya-ashukha.github.io/projects/lama_21/paper.txt)] [[Casual GAN Papers Summary](https://www.casualganpapers.com/large-masks-fourier-convolutions-inpainting/LaMa-explained.html)]
+[[Project page](https://advimman.github.io/lama-project/)] [[arXiv](https://arxiv.org/abs/2109.07161)] [[Supplementary](https://ashukha.com/projects/lama_21/lama_supmat_2021.pdf)] [[BibTeX](https://senya-ashukha.github.io/projects/lama_21/paper.txt)] [[Casual GAN Papers Summary](https://www.casualganpapers.com/large-masks-fourier-convolutions-inpainting/LaMa-explained.html)]
  
 <p align="center">
-  <a href="https://colab.research.google.com/github/saic-mdal/lama/blob/master//colab/LaMa_inpainting.ipynb">
+  <a href="https://colab.research.google.com/github/advimman/lama/blob/master//colab/LaMa_inpainting.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg"/>
   </a>
       <br>
@@ -31,7 +31,7 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
 
 # LaMa development
 (Feel free to share your paper by creating an issue)
-- Amazing results [paper](https://arxiv.org/abs/2206.13644) / [video](https://www.youtube.com/watch?v=gEukhOheWgE) / code https://github.com/saic-mdal/lama/pull/112 / by Geomagical Labs ([geomagical.com](geomagical.com))
+- Amazing results [paper](https://arxiv.org/abs/2206.13644) / [video](https://www.youtube.com/watch?v=gEukhOheWgE) / code https://github.com/advimman/lama/pull/112 / by Geomagical Labs ([geomagical.com](geomagical.com))
 <p align="center">
   <img src="https://raw.githubusercontent.com/senya-ashukha/senya-ashukha.github.io/master/images/FeatureRefinement.png" />
 </p>
@@ -51,7 +51,7 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
 # Environment setup
 
 Clone the repo:
-`git clone https://github.com/saic-mdal/lama.git`
+`git clone https://github.com/advimman/lama.git`
 
 There are three options of an environment:
 
@@ -125,7 +125,7 @@ unzip LaMa_test_images.zip
  <summary>OR prepare your data:</summary>
 1) Create masks named as `[images_name]_maskXXX[image_suffix]`, put images and masks in the same folder. 
 
-- You can use the [script](https://github.com/saic-mdal/lama/blob/main/bin/gen_mask_dataset.py) for random masks generation. 
+- You can use the [script](https://github.com/advimman/lama/blob/main/bin/gen_mask_dataset.py) for random masks generation. 
 - Check the format of the files:
     ```    
     image1_mask001.png
