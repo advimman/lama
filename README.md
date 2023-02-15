@@ -1,6 +1,6 @@
 # 🦙 LaMa: Resolution-robust Large Mask Inpainting with Fourier Convolutions
 
-Official implementation by Samsung Research
+Official implementation
 
 by Roman Suvorov, Elizaveta Logacheva, Anton Mashikhin, 
 Anastasia Remizova, Arsenii Ashukha, Aleksei Silvestrov, Naejin Kong, Harshith Goka, Kiwoong Park, Victor Lempitsky.
@@ -462,12 +462,3 @@ If you found this code helpful, please consider citing:
   year={2021}
 }
 ```
-
-<div style="text-align:center" align="center">
-<br>
-<br>
-  <img loading="lazy"  height="50px" src="https://raw.githubusercontent.com/saic-mdal/lama-project/main/docs/img/samsung_ai.png" />
-</div>
-<br>
-<p style="font-weight:normal; font-size: 16pt;text-align:center"align="center"  >Copyright © 2021</p>
-<br>
