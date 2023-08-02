@@ -13,7 +13,7 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
 [[Project page](https://advimman.github.io/lama-project/)] [[arXiv](https://arxiv.org/abs/2109.07161)] [[Supplementary](https://ashukha.com/projects/lama_21/lama_supmat_2021.pdf)] [[BibTeX](https://senya-ashukha.github.io/projects/lama_21/paper.txt)] [[Casual GAN Papers Summary](https://www.casualganpapers.com/large-masks-fourier-convolutions-inpainting/LaMa-explained.html)]
  
 <p align="center">
-  <a href="https://colab.research.google.com/github/advimman/lama/blob/master//colab/LaMa_inpainting.ipynb">
+  <a href="[https://colab.research.google.com/github.com/Xinshuai-Lyu/lama/blob/master/LaMa_inpainting.ipynb](https://colab.research.google.com/drive/15KTEIScUbVZtUP6w2tCDMVpE-b1r9pkZ?usp=drive_link)">
   <img src="https://colab.research.google.com/assets/colab-badge.svg"/>
   </a>
       <br>
