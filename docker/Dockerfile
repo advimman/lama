@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.2-runtime-ubuntu18.04
+FROM nvcr.io/nvidia/cuda:10.2-runtime-ubuntu18.04
 
 RUN apt-get update && \
     apt-get upgrade -y && \
