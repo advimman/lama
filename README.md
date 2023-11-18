@@ -121,7 +121,6 @@ unzip lama-models.zip
 Download test images:
 
 ```
-curl -L $(yadisk-direct https://disk.yandex.ru/d/xKQJZeVRk5vLlQ) -o LaMa_test_images.zip
 unzip LaMa_test_images.zip
 ```
 <details>
