@@ -152,7 +152,10 @@ The following command will pull the docker image from Docker Hub and execute the
 ```
 bash docker/2_predict.sh $(pwd)/big-lama $(pwd)/LaMa_test_images $(pwd)/output device=cpu
 ```
-Docker cuda: TODO
+Docker cuda:
+```
+bash docker/2_predict_with_gpu.sh $(pwd)/big-lama $(pwd)/LaMa_test_images $(pwd)/output
+```
 
 **4. Predict with Refinement**
 
