@@ -102,23 +102,17 @@ export TORCH_HOME=$(pwd) && export PYTHONPATH=$(pwd)
 
 **1. Download pre-trained models**
 
-Install tool for yandex disk link extraction:
-
-```
-pip3 install wldhx.yadisk-direct
-```
-
 The best model (Places2, Places Challenge):
     
 ```    
-curl -L $(yadisk-direct https://disk.yandex.ru/d/ouP6l8VJ0HpMZg) -o big-lama.zip
+curl -LJO https://huggingface.co/smartywu/big-lama/resolve/main/big-lama.zip
 unzip big-lama.zip
 ```
 
 All models (Places & CelebA-HQ):
 
 ```
-curl -L $(yadisk-direct https://disk.yandex.ru/d/EgqaSnLohjuzAg) -o lama-models.zip
+download [https://drive.google.com/drive/folders/1B2x7eQDgecTL0oh3LSIBDGj0fTxs6Ips?usp=drive_link]
 unzip lama-models.zip
 ```
 
