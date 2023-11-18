@@ -38,7 +38,8 @@ LOGGER = logging.getLogger(__name__)
 @hydra.main(config_path='../configs/prediction', config_name='default_inner_features.yaml')
 def main(predict_config: OmegaConf):
     try:
-        register_debug_signal_handlers()  # kill -10 <pid> will result in traceback dumped into log
+        if sys.platform != 'win32':
+            register_debug_signal_handlers()  # kill -10 <pid> will result in traceback dumped into log
 
         device = torch.device(predict_config.device)
 
