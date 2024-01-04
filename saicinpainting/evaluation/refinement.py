@@ -125,21 +125,32 @@ def _infer(
     if ref_lower_res is not None:
         ref_lower_res = ref_lower_res.detach()
     with torch.no_grad():
-        z1,z2 = forward_front(masked_image)
+        z_feats = forward_front(masked_image)
+        z_feat_type = type(z_feats)
+        if z_feat_type == tuple:
+            z_feats = list(z_feats)
+        elif z_feat_type == torch.Tensor:
+            z_feats = [z_feats]
+        else:
+            raise NotImplementedError("Expected the output of forward_front to be a tuple or a tensor!")
     # Inference
     mask = mask.to(devices[-1])
     ekernel = torch.from_numpy(cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(15,15)).astype(bool)).float()
     ekernel = ekernel.to(devices[-1])
     image = image.to(devices[-1])
-    z1, z2 = z1.detach().to(devices[0]), z2.detach().to(devices[0])
-    z1.requires_grad, z2.requires_grad = True, True
+    z_feats = [z_feat.detach().to(devices[0]) for z_feat in z_feats]
+    for z_feat in z_feats:
+        z_feat.requires_grad = True        
 
-    optimizer = Adam([z1,z2], lr=lr)
+    optimizer = Adam(z_feats, lr=lr)
 
     pbar = tqdm(range(n_iters), leave=False)
     for idi in pbar:
         optimizer.zero_grad()
-        input_feat = (z1,z2)
+        if z_feat_type == tuple:
+            input_feat = tuple(z_feats)
+        elif z_feat_type == torch.Tensor:
+            input_feat = z_feats[0]
         for idd, forward_rear in enumerate(forward_rears):
             output_feat = forward_rear(input_feat)
             if idd < len(devices) - 1:
