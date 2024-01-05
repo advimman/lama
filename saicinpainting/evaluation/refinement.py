@@ -103,7 +103,6 @@ def list_to_feats_type(feats, feats_type):
         raise NotImplementedError("Expected the output of forward_front to be a tuple or a tensor!")
     return feats
 
-
 def _infer(
     image : torch.Tensor, mask : torch.Tensor, 
     forward_front : nn.Module, forward_rears : nn.Module, 
