@@ -83,6 +83,27 @@ def _l1_loss(
         loss += torch.mean(torch.abs(pred_downscaled[mask_downscaled>=1e-8] - ref[mask_downscaled>=1e-8]))                
     return loss
 
+def feats_type_to_list(feats, feats_type):
+    """unpacks the tuple of features into a list"""
+    if feats_type == tuple:
+        feats = list(feats)
+    elif feats_type == torch.Tensor:
+        feats = [feats]
+    else:
+        raise NotImplementedError("Expected the output of forward_front to be a tuple or a tensor!")
+    return feats
+
+def list_to_feats_type(feats, feats_type):
+    """packs the list of features into the original feature type"""
+    if feats_type == tuple:
+        feats = tuple(feats)
+    elif feats_type == torch.Tensor:
+        feats = feats[0]
+    else:
+        raise NotImplementedError("Expected the output of forward_front to be a tuple or a tensor!")
+    return feats
+
+
 def _infer(
     image : torch.Tensor, mask : torch.Tensor, 
     forward_front : nn.Module, forward_rears : nn.Module, 
@@ -126,13 +147,8 @@ def _infer(
         ref_lower_res = ref_lower_res.detach()
     with torch.no_grad():
         z_feats = forward_front(masked_image)
-        z_feat_type = type(z_feats)
-        if z_feat_type == tuple:
-            z_feats = list(z_feats)
-        elif z_feat_type == torch.Tensor:
-            z_feats = [z_feats]
-        else:
-            raise NotImplementedError("Expected the output of forward_front to be a tuple or a tensor!")
+        z_feats_type = type(z_feats)
+        z_feats = feats_type_to_list(z_feats, z_feats_type)
     # Inference
     mask = mask.to(devices[-1])
     ekernel = torch.from_numpy(cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(15,15)).astype(bool)).float()
@@ -147,16 +163,13 @@ def _infer(
     pbar = tqdm(range(n_iters), leave=False)
     for idi in pbar:
         optimizer.zero_grad()
-        if z_feat_type == tuple:
-            input_feat = tuple(z_feats)
-        elif z_feat_type == torch.Tensor:
-            input_feat = z_feats[0]
+        input_feat = list_to_feats_type(z_feats, z_feats_type)
         for idd, forward_rear in enumerate(forward_rears):
             output_feat = forward_rear(input_feat)
             if idd < len(devices) - 1:
-                midz1, midz2 = output_feat
-                midz1, midz2 = midz1.to(devices[idd+1]), midz2.to(devices[idd+1])
-                input_feat = (midz1, midz2)
+                mid_z_feats = feats_type_to_list(output_feat, z_feats_type)
+                mid_z_feats = [mid_z_feat.to(devices[idd+1]) for mid_z_feat in mid_z_feats]
+                input_feat = list_to_feats_type(mid_z_feats, z_feats_type)
             else:        
                 pred = output_feat
 
