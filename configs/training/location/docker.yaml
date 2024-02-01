@@ -3,3 +3,5 @@ data_root_dir: /data/data
 out_root_dir: /data/experiments
 tb_dir: /data/tb_logs
 pretrained_models: /some_path
+# path to model checkpoint that will be loaded before start of training
+# load_checkpoint_path: /home/user/lama/big-lama/models/best.ckpt
