@@ -3,3 +3,5 @@ data_root_dir: /home/user/inpainting-lama/places_standard_dataset/
 out_root_dir: /home/user/inpainting-lama/experiments
 tb_dir: /home/user/inpainting-lama/tb_logs
 pretrained_models: /home/user/inpainting-lama/
+# path to model checkpoint that will be loaded before start of training
+# load_checkpoint_path: /home/user/lama/big-lama/models/best.ckpt
