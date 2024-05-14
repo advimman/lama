@@ -29,6 +29,15 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
   <img src="https://raw.githubusercontent.com/senya-ashukha/senya-ashukha.github.io/master/projects/lama_21/gif_for_lightning_v1_white.gif" />
 </p>
 
+# LaMa in ONNX!
+For now, LaMa (big-lama) can be exported to ONNX format / by [Carve.Photos](https://carve.photos)
+
+🔥 ONNX Model repository on Hugging Face: [Hugging Face](https://huggingface.co/Carve/LaMa-ONNX) \
+🚀 HG Space Demo using onnx model: [Hugging Face Spaces](https://huggingface.co/spaces/Carve/LaMa-Demo-ONNX) \
+📘 Jupyter notebook to export your own model: [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/Carve-Photos/lama/blob/main/export_LaMa_to_onnx.ipynb) \
+
+
+
 # LaMa development
 (Feel free to share your paper by creating an issue)
 - https://github.com/geekyutao/Inpaint-Anything --- Inpaint Anything: Segment Anything Meets Image Inpainting
@@ -40,6 +49,8 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
 <p align="center">
   <img src="https://raw.githubusercontent.com/senya-ashukha/senya-ashukha.github.io/master/images/FeatureRefinement.png" />
 </p>
+
+
 
 # Non-official 3rd party apps:
 (Feel free to share your app/implementation/demo by creating an issue)
