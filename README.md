@@ -34,7 +34,7 @@ For now, LaMa (big-lama) can be exported to ONNX format / by [Carve.Photos](http
 
 🔥 ONNX Model repository on Hugging Face: [Hugging Face](https://huggingface.co/Carve/LaMa-ONNX) \
 🚀 HG Space Demo using onnx model: [Hugging Face Spaces](https://huggingface.co/spaces/Carve/LaMa-Demo-ONNX) \
-📘 Jupyter notebook to export your own model: [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/Carve-Photos/lama/blob/main/export_LaMa_to_onnx.ipynb) 
+📘 Jupyter notebook to export your own model: [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Carve-Photos/lama/blob/main/export_LaMa_to_onnx.ipynb) 
 
 
 
