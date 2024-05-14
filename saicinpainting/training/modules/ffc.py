@@ -1,6 +1,7 @@
 # Fast Fourier Convolution NeurIPS 2020
 # original implementation https://github.com/pkumivision/FFC/blob/main/model_zoo/ffc.py
 # paper https://proceedings.neurips.cc/paper/2020/file/2fd5d41ec6cfab47e32164d5624269b1-Paper.pdf
+import logging
 
 import numpy as np
 import torch
@@ -11,7 +12,185 @@ from saicinpainting.training.modules.base import get_activation, BaseDiscriminat
 from saicinpainting.training.modules.spatial_transform import LearnableSpatialTransformWrapper
 from saicinpainting.training.modules.squeeze_excitation import SELayer
 from saicinpainting.utils import get_shape
+from typing import List
 
+import torch
+import torch.nn as nn
+
+
+
+
+def rfft(x):
+    N = x.shape[-1]  # Length of the signal
+
+    # Create the necessary ranges for computation
+    n = torch.arange(N, dtype=torch.float32, device=x.device)
+    k = torch.arange(N // 2 + 1, dtype=torch.float32, device=x.device)
+
+    # Compute the matrix for cosine and sine components
+    cos_part = torch.cos(-2 * torch.pi * n[:, None] * k / N)  # Transpose of original to align for matmul
+    sin_part = torch.sin(-2 * torch.pi * n[:, None] * k / N)
+
+    # Perform the matrix multiplication
+    real_part = torch.matmul(x, cos_part)
+    imag_part = torch.matmul(x, sin_part)  # Notice the sign change for sine
+    if not isinstance(N, torch.Tensor):
+        N = torch.tensor(N, device=x.device)
+    return (real_part / torch.sqrt(N),
+            imag_part / torch.sqrt(N))
+
+
+def fft(REAL, IMAG):
+    x_real = REAL
+    x_imag = IMAG
+
+
+    N = x_real.shape[-1]
+    n = torch.arange(N, dtype=torch.float32, device=x_real.device)
+    k = n.unsqueeze(1)
+
+    cos_part = torch.cos(-2 * torch.pi * k * n / N)
+    sin_part = torch.sin(-2 * torch.pi * k * n / N)
+
+    # Compute the real and imaginary components using the matrix multiplication
+    X_real = torch.matmul(cos_part, x_real.unsqueeze(-1)) - torch.matmul(sin_part, x_imag.unsqueeze(-1))
+    X_imag = torch.matmul(sin_part, x_real.unsqueeze(-1)) + torch.matmul(cos_part, x_imag.unsqueeze(-1))
+
+
+
+    if not isinstance(N, torch.Tensor):
+        N = torch.tensor(N, device=X_imag.device)
+
+    # Squeeze the last dimension and normalize
+    X_real = X_real.squeeze(-1) / torch.sqrt(N)
+    X_imag = X_imag.squeeze(-1) / torch.sqrt(N)
+    return X_real, X_imag
+
+
+class RFFTTN_REAL_ONLY(nn.Module):
+
+    def fft_dim(self, IREAL, IIMAG, dim):
+        REAL, IMAG = fft(IREAL.transpose(dim, -1), IIMAG.transpose(dim, -1))
+        REAL = REAL.transpose(dim, -1)
+        IMAG = IMAG.transpose(dim, -1)
+        return REAL, IMAG
+
+    def rfft_dim(self, d: torch.Tensor, dim):
+        REAL, IMAG = rfft(d.transpose(dim, -1))
+        REAL = REAL.transpose(dim, -1)
+        IMAG = IMAG.transpose(dim, -1)
+        return REAL, IMAG
+
+    def rfft2d(self, d: torch.Tensor):
+        REAL, IMAG = self.rfft_dim(d, -1)
+        return self.fft_dim(REAL, IMAG, -2)
+
+    def forward(self, input, s=None, dim=None, norm="backward"):
+        if dim is None:
+            dim = [-2, -1]  # Default to the last two dimensions
+
+        return self.rfft2d(input)
+
+
+def irfft(REAL, IMAG, n=None, axis=-1, norm=None):
+    # Make sure the axis is positive
+    axis = axis if axis >= 0 else REAL.ndim + axis
+
+    # Generate the full FFT spectrum from the half-spectrum
+    REAL_flipped = torch.flip(REAL[..., 1:-1], dims=[axis])
+    IMAG_flipped = torch.flip(IMAG[..., 1:-1], dims=[axis])
+
+    # Conjugate the flipped IMAG tensor by multiplying by -1.
+    IMAG_flipped_conj = -IMAG_flipped
+
+    # Concatenate the original REAL and IMAG with their conjugated flipped versions.
+    REAL_extended = torch.cat([REAL, REAL_flipped], dim=axis)
+    IMAG_extended = torch.cat([IMAG, IMAG_flipped_conj], dim=axis)
+
+    REAL = ifft1d(REAL_extended, IMAG_extended, axis=axis)[0]
+    REAL = REAL.permute(0, 1, 3, 2)
+    return REAL
+
+
+def ifft1d(REAL, IMAG, n=None, axis=-1):
+    if n is None:
+        n = REAL.shape[axis]
+
+    i = torch.arange(n, device=REAL.device)
+    j = torch.arange(n, device=REAL.device)
+
+    cos_matrix = torch.cos(2 * torch.pi * i.unsqueeze(-1) * j / n)
+    sin_matrix = torch.sin(2 * torch.pi * i.unsqueeze(-1) * j / n)
+
+    # Perform the matrix multiplication along the specified axis
+    real_part = torch.tensordot(cos_matrix, REAL, dims=([1], [axis])) - torch.tensordot(sin_matrix, IMAG,
+                                                                                        dims=([1], [axis]))
+    imag_part = torch.tensordot(sin_matrix, REAL, dims=([1], [axis])) + torch.tensordot(cos_matrix, IMAG,
+                                                                                        dims=([1], [axis]))
+
+    # Normalize by the number of points
+    if not isinstance(n, torch.Tensor):
+        n = torch.tensor(n, device=REAL.device)
+    final_real = real_part / torch.sqrt(n)
+    final_imag = imag_part / torch.sqrt(n)
+
+    # calculate permutation
+    perm = list(range(len(REAL.shape)))
+    perm[2], perm[0] = perm[0], perm[2]
+    perm[0], perm[1] = perm[1], perm[0]
+
+    final_real = final_real.permute(perm)
+    final_imag = final_imag.permute(perm)
+
+    return final_real, final_imag
+
+
+def ifft2d(REAL, IMAG, shape=None):
+    REAL, IMAG = ifft1d(REAL, IMAG, axis=-2)
+    return irfft(REAL, IMAG, axis=-1, n=shape)
+
+
+class FourierUnitJIT(nn.Module):
+
+    def __init__(self, in_channels, out_channels, groups=1, spatial_scale_factor=None, spatial_scale_mode='bilinear',
+                 spectral_pos_encoding=False, use_se=False, se_kwargs=None, ffc3d=False, fft_norm='ortho', **kwargs):
+        # bn_layer not used
+        super(FourierUnitJIT, self).__init__()
+        self.groups = groups
+
+        self.conv_layer = torch.nn.Conv2d(in_channels=in_channels * 2 + (2 if spectral_pos_encoding else 0),
+                                          out_channels=out_channels * 2,
+                                          kernel_size=1, stride=1, padding=0, groups=self.groups, bias=False)
+        self.bn = torch.nn.BatchNorm2d(out_channels * 2)
+        self.relu = torch.nn.ReLU(inplace=True)
+
+        self.spatial_scale_factor = spatial_scale_factor
+        self.spatial_scale_mode = spatial_scale_mode
+        self.spectral_pos_encoding = spectral_pos_encoding
+        self.ffc3d = ffc3d
+        self.fft_norm = fft_norm
+        self.rttn = RFFTTN_REAL_ONLY()
+
+    def forward(self, x):
+        batch = x.shape[0]
+
+        ffted_real, ffted_imag = self.rttn(x, dim=(-2, -1), norm=self.fft_norm)
+        ffted = torch.stack((ffted_real, ffted_imag), dim=-1)
+        ffted = ffted.permute(0, 1, 4, 2, 3).contiguous()  # (batch, c, 2, h, w/2+1)
+        ffted = ffted.view((batch, -1,) + ffted.size()[3:])
+
+        ffted = self.conv_layer(ffted)  # (batch, c*2, h, w/2+1)
+        ffted = self.relu(self.bn(ffted))
+
+        ffted = ffted.view((batch, -1, 2,) + ffted.size()[2:]).permute(
+            0, 1, 3, 4, 2).contiguous()  # (batch,c, t, h, w/2+1, 2)
+        ffted_real, ffted_imag = ffted[..., 0], ffted[..., 1]
+
+        ifft_shape_slice = x.shape[-3:] if self.ffc3d else x.shape[-2:]
+
+        output = ifft2d(ffted_real, ffted_imag, shape=ifft_shape_slice)
+
+        return output
 
 class FFCSE_block(nn.Module):
 
@@ -131,11 +310,24 @@ class SpectralTransform(nn.Module):
             nn.BatchNorm2d(out_channels // 2),
             nn.ReLU(inplace=True)
         )
-        self.fu = FourierUnit(
-            out_channels // 2, out_channels // 2, groups, **fu_kwargs)
+        if fu_kwargs.get('use_jit', False):
+            logging.info("Using JIT for FourierUnit")
+            self.fu = FourierUnitJIT(
+                out_channels // 2, out_channels // 2, groups, **fu_kwargs)
+        else:
+            self.fu = FourierUnit(
+                out_channels // 2, out_channels // 2, groups, **fu_kwargs)
+
         if self.enable_lfu:
-            self.lfu = FourierUnit(
-                out_channels // 2, out_channels // 2, groups)
+
+            if fu_kwargs.get('use_jit', False):
+                logging.info("Using JIT for FourierUnit")
+                self.lfu = FourierUnitJIT(
+                    out_channels // 2, out_channels // 2, groups)
+            else:
+                self.lfu = FourierUnit(
+                    out_channels // 2, out_channels // 2, groups)
+
         self.conv2 = torch.nn.Conv2d(
             out_channels // 2, out_channels, kernel_size=1, groups=groups, bias=False)
 
@@ -203,8 +395,8 @@ class FFC(nn.Module):
         self.gate = module(in_channels, 2, 1)
 
     def forward(self, x):
-        x_l, x_g = x if type(x) is tuple else (x, 0)
-        out_xl, out_xg = 0, 0
+        x_l, x_g = x if type(x) is tuple else (x, torch.tensor(0))
+        out_xl, out_xg = torch.tensor(0), torch.tensor(0)
 
         if self.gated:
             total_input_parts = [x_l]
