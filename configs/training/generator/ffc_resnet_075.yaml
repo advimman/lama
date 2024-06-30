@@ -6,6 +6,7 @@ ngf: 64
 n_downsampling: 3
 n_blocks: 9
 add_out_act: sigmoid
+conv_kind: depthwise
 
 init_conv_kwargs:
   ratio_gin: 0

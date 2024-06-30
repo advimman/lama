@@ -1,6 +1,6 @@
 # @package _group_
 
-batch_size: 10
+batch_size: 8
 val_batch_size: 2
 num_workers: 3
 
