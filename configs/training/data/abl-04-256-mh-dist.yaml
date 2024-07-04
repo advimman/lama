@@ -24,6 +24,8 @@ train:
       max_times: 4
       min_times: 1
 
+    occ_mask: True
+
     segm_proba: 0
 
   transform_variant: distortions
