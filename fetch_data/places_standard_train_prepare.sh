@@ -1,7 +1,7 @@
-mkdir -p places_standard_dataset/train
+#mkdir -p places_standard_dataset/train
 
 # untar without folder structure
-tar -xvf train_large_places365standard.tar -C places_standard_dataset/train
+#tar -xvf train_large_places365standard.tar -C places_standard_dataset/train
 
 # create location config places.yaml
 PWD=$(pwd)
