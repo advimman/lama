@@ -11,20 +11,20 @@ train:
     irregular_proba: 1
     irregular_kwargs:
       max_angle: 4
-      max_len: 200
-      max_width: 100
-      max_times: 5
+      max_len: 100
+      max_width: 20
+      max_times: 3
       min_times: 1
 
-    box_proba: 1
-    box_kwargs:
-      margin: 10
-      bbox_min_size: 30
-      bbox_max_size: 150
-      max_times: 4
-      min_times: 1
+    # box_proba: 1
+    # box_kwargs:
+    #   margin: 10
+    #   bbox_min_size: 30
+    #   bbox_max_size: 150
+    #   max_times: 4
+    #   min_times: 1
 
-    occ_mask: False
+    # occ_mask: True
 
     segm_proba: 0
 

@@ -78,6 +78,9 @@ class BaseInpaintingTrainingModule(ptl.LightningModule):
             self.val_evaluator = make_evaluator(**self.config.evaluator)
             self.test_evaluator = make_evaluator(**self.config.evaluator)
 
+            self.log_on_epoch = config.trainer.logs.log_on_epoch
+            self.log_on_step = config.trainer.logs.log_on_step
+
             if not get_has_ddp_rank():
                 LOGGER.info(f'Discriminator\n{self.discriminator}')
 
@@ -174,7 +177,9 @@ class BaseInpaintingTrainingModule(ptl.LightningModule):
                      if torch.is_tensor(batch_parts_outputs['loss'])  # loss is not tensor when no discriminator used
                      else torch.tensor(batch_parts_outputs['loss']).float().requires_grad_(True))
         log_info = {k: v.mean() for k, v in batch_parts_outputs['log_info'].items()}
-        self.log_dict(log_info, on_step=True, on_epoch=False)
+        
+        self.log_dict(log_info, on_step=self.log_on_step, on_epoch=self.log_on_epoch)
+
         return full_loss
 
     def validation_epoch_end(self, outputs):
@@ -194,7 +199,10 @@ class BaseInpaintingTrainingModule(ptl.LightningModule):
                     f'total {self.global_step} iterations:\n{val_evaluator_res_df}')
 
         for k, v in flatten_dict(val_evaluator_res).items():
-            self.log(f'val_{k}', v)
+            metric_name = f'val_{k}'
+            if 'total' not in metric_name:
+                metric_name = '_' + metric_name
+            self.log(metric_name, v)
 
         # standard visual test
         test_evaluator_states = [s['test_evaluator_state'] for s in outputs
@@ -206,7 +214,11 @@ class BaseInpaintingTrainingModule(ptl.LightningModule):
                     f'total {self.global_step} iterations:\n{test_evaluator_res_df}')
 
         for k, v in flatten_dict(test_evaluator_res).items():
-            self.log(f'test_{k}', v)
+            metric_name = f'test_{k}'
+            if 'total' not in metric_name:
+                metric_name = '_' + metric_name
+            self.log(metric_name, v)
+
 
         # extra validations
         if self.extra_evaluators:

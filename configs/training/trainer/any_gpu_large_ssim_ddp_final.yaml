@@ -2,10 +2,10 @@
 kwargs:
   gpus: -1
   accelerator: ddp
-  max_epochs: 100
+  max_epochs: 20
   gradient_clip_val: 1
   log_gpu_memory: None  # set to min_max or all for debug
-  limit_train_batches: 25000
+  limit_train_batches: 10
   val_check_interval: ${trainer.kwargs.limit_train_batches}
   # fast_dev_run: True  # uncomment for faster debug
   # track_grad_norm: 2  # uncomment to track L2 gradients norm
@@ -21,6 +21,10 @@ kwargs:
   num_sanity_val_steps: 8
 #  limit_val_batches: 1000000
   replace_sampler_ddp: False
+
+logs:
+  log_on_epoch: true
+  log_on_step: false
 
 checkpoint_kwargs:
   verbose: True
