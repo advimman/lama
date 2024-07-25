@@ -28,6 +28,7 @@ class InpaintingTrainDataset(Dataset):
         self.mask_generator = mask_generator
         self.transform = transform
         self.iter_i = 0
+        self.indir = indir
 
     def __len__(self):
         return len(self.in_files)
@@ -39,7 +40,7 @@ class InpaintingTrainDataset(Dataset):
         img = self.transform(image=img)['image']
         img = np.transpose(img, (2, 0, 1))
         # TODO: maybe generate mask before augmentations? slower, but better for segmentation-based masks
-        mask = self.mask_generator(img, path=path, iter_i=self.iter_i)
+        mask = self.mask_generator(img, path=path, iter_i=self.iter_i, indir=self.indir)
         self.iter_i += 1
         return dict(image=img,
                     mask=mask)

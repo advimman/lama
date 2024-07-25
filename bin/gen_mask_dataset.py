@@ -19,9 +19,9 @@ class MakeManyMasksWrapper:
         self.impl = impl
         self.variants_n = variants_n
 
-    def get_masks(self, img):
+    def get_masks(self, img, indir= None):
         img = np.transpose(np.array(img), (2, 0, 1))
-        return [self.impl(img)[0] for _ in range(self.variants_n)]
+        return [self.impl(img,indir=indir)[0] for _ in range(self.variants_n)]
 
 
 def process_images(src_images, indir, outdir, config):
@@ -59,7 +59,7 @@ def process_images(src_images, indir, outdir, config):
                 image = image.resize(out_size, resample=Image.BICUBIC)
 
             # generate and select masks
-            src_masks = mask_generator.get_masks(image)
+            src_masks = mask_generator.get_masks(image,indir)
 
             filtered_image_mask_pairs = []
             for cur_mask in src_masks:
@@ -104,7 +104,10 @@ def main(args):
     os.makedirs(args.outdir, exist_ok=True)
 
     config = load_yaml(args.config)
+    if args.occ_indir and "occ_mask_indir" in config.mask_generator_kwargs:
+        config.mask_generator_kwargs["occ_mask_indir"]= args.occ_indir
 
+        
     in_files = list(glob.glob(os.path.join(args.indir, '**', f'*.{args.ext}'), recursive=True))
     if args.n_jobs == 0:
         process_images(in_files, args.indir, args.outdir, config)
@@ -124,6 +127,7 @@ if __name__ == '__main__':
     aparser.add_argument('config', type=str, help='Path to config for dataset generation')
     aparser.add_argument('indir', type=str, help='Path to folder with images')
     aparser.add_argument('outdir', type=str, help='Path to folder to store aligned images and masks to')
+    aparser.add_argument('--occ_indir', type=str,default=None, help ='Path to the occlusion folder')
     aparser.add_argument('--n-jobs', type=int, default=0, help='How many processes to use')
     aparser.add_argument('--ext', type=str, default='jpg', help='Input image extension')
 

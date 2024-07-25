@@ -2,7 +2,7 @@
 
 batch_size: 8
 val_batch_size: 2
-num_workers: 3
+num_workers: 3 
 
 train:
   indir: ${location.data_root_dir}/train
@@ -23,8 +23,9 @@ train:
     #   bbox_max_size: 150
     #   max_times: 4
     #   min_times: 1
-
-    # occ_mask: True
+       
+    occ_mask: True
+    occ_mask_indir: ${location.occ_mask_root_dir}/train
 
     segm_proba: 0
 
