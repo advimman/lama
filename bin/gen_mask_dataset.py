@@ -29,8 +29,8 @@ def process_images(src_images, indir, outdir, config):
         mask_generator = SegmentationMask(**config.mask_generator_kwargs)
     elif config.generator_kind == 'random':
         variants_n = config.mask_generator_kwargs.pop('variants_n', 2)
-        mask_generator = MakeManyMasksWrapper(MixedMaskGenerator(**config.mask_generator_kwargs),
-                                              variants_n=variants_n)
+        mixed_mask_generator = MixedMaskGenerator(**config.mask_generator_kwargs)
+        mask_generator = MakeManyMasksWrapper(mixed_mask_generator, variants_n=variants_n)
     else:
         raise ValueError(f'Unexpected generator kind: {config.generator_kind}')
 
@@ -110,6 +110,7 @@ def main(args):
         else:
             print("ERROR | Trying to generate using occlusion masks but the config file does not contain the path to them")
         
+    print("DEBUG",config)    
     in_files = list(glob.glob(os.path.join(args.indir, '**', f'*.{args.ext}'), recursive=True))
     if args.n_jobs == 0:
         process_images(in_files, args.indir, args.outdir, config)

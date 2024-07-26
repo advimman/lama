@@ -3,9 +3,9 @@ import random
 import hashlib
 import logging
 from enum import Enum
-
 import cv2
 import numpy as np
+import os
 
 from saicinpainting.evaluation.masks.mask import SegmentationMask
 from saicinpainting.utils import LinearRamp
@@ -318,13 +318,28 @@ class MixedMaskGenerator:
         
         # Training for parallax tasks
         if self.occ_mask:
+            
             if path is None:
                 raise Exception("Trying to use occlusion mask but no path is provided!\nTroubleshoot-Idea: check the dataset call for the mask generation function")
+            
+            # Deriving the occlusion mask path from the image path
+            filename = os.path.basename(path)
             occ_mask_path = path.replace(indir,self.occ_mask_indir)
-            occ_mask = cv2.imread(occ_mask_path)
-            occ_mask = np.expand_dims(occ_mask, axis=0)
-            result = np.logical_or(result, occ_mask)
+            occ_mask_path = occ_mask_path.replace(filename, "")
+            occ_mask_path = os.path.join(occ_mask_path, f"occlusion_{filename}") 
 
+            occ_mask = cv2.imread(occ_mask_path)
+            occ_mask = cv2.cvtColor(occ_mask, cv2.COLOR_BGR2GRAY)
+
+            occ_mask = np.expand_dims(occ_mask, axis=0)
+            # Convert mask2 to 0 and 1
+            occ_mask = occ_mask / np.max(occ_mask)
+            occ_mask = (occ_mask > 0).astype('float32')
+
+            # Blend the masks
+            result = np.logical_or(result, occ_mask).astype(result.dtype)
+            
+        
         return result
 
 
