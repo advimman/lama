@@ -104,9 +104,11 @@ def main(args):
     os.makedirs(args.outdir, exist_ok=True)
 
     config = load_yaml(args.config)
-    if args.occ_indir and "occ_mask_indir" in config.mask_generator_kwargs:
-        config.mask_generator_kwargs["occ_mask_indir"]= args.occ_indir
-
+    if args.occ_indir:
+        if "occ_mask_indir" in config.mask_generator_kwargs:
+            config.mask_generator_kwargs["occ_mask_indir"]= args.occ_indir
+        else:
+            print("ERROR | Trying to generate using occlusion masks but the config file does not contain the path to them")
         
     in_files = list(glob.glob(os.path.join(args.indir, '**', f'*.{args.ext}'), recursive=True))
     if args.n_jobs == 0:

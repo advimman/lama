@@ -13,7 +13,7 @@ mask_generator_kwargs:
   squares_proba: 0
 
   occ_mask: True
-  #: ${training.location.occ_mask_root_indir} #overwrite when running gen_mask_dataset.py
+  occ_mask_indir: ${training.location.occ_mask_root_dir} #overwrite when running gen_mask_dataset.py
 
   variants_n: 5
 
