@@ -1,7 +1,7 @@
 import os
 import random
 
-test_files_path           = os.path.abspath('.') + '/places_standard_dataset/original/test/'
+test_files_path           = os.path.abspath('.') + '/places_standard_dataset/original/test/test_large'
 list_of_random_test_files = os.path.abspath('.') + '/places_standard_dataset/original/test_random_files.txt'
 
 test_files = [
