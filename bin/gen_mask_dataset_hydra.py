@@ -10,7 +10,7 @@ from omegaconf import OmegaConf
 import PIL.Image as Image
 import numpy as np
 from joblib import Parallel, delayed
-
+import config
 from saicinpainting.evaluation.masks.mask import SegmentationMask, propose_random_square_crop
 from saicinpainting.evaluation.utils import load_yaml, SmallMode
 from saicinpainting.training.data.masks import MixedMaskGenerator
