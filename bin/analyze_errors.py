@@ -8,6 +8,7 @@ import pickle
 import pandas as pd
 import matplotlib.pyplot as plt
 from joblib import Parallel, delayed
+import config
 
 from saicinpainting.evaluation.data import PrecomputedInpaintingResultsDataset, load_image
 from saicinpainting.evaluation.losses.fid.inception import InceptionV3
