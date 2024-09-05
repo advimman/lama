@@ -6,7 +6,7 @@ import torch
 from skimage import io
 from skimage.transform import resize
 from torch.utils.data import Dataset
-
+import config
 from saicinpainting.evaluation.evaluator import InpaintingEvaluator
 from saicinpainting.evaluation.losses.base_loss import SSIMScore, LPIPSScore, FIDScore
 
