@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from skimage import io
 from skimage.transform import resize
-
+import config
 from saicinpainting.evaluation.masks.mask import SegmentationMask
 
 im = io.imread('imgs/ex4.jpg')
