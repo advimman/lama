@@ -6,7 +6,7 @@ import numpy as np
 import tqdm
 from skimage import io
 from skimage.segmentation import mark_boundaries
-
+import config
 from saicinpainting.evaluation.data import InpaintingDataset
 from saicinpainting.evaluation.vis import save_item_for_vis
 

@@ -4,7 +4,7 @@ import random
 
 import cv2
 import numpy as np
-
+import config
 from saicinpainting.evaluation.data import PrecomputedInpaintingResultsDataset
 from saicinpainting.evaluation.utils import load_yaml
 from saicinpainting.training.visualizers.base import visualize_mask_and_images

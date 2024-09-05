@@ -9,7 +9,7 @@ import numpy as np
 import tqdm
 import shutil
 
-
+import config
 from saicinpainting.evaluation.utils import load_yaml
 
 

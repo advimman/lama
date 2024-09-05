@@ -5,7 +5,7 @@ import os
 import numpy as np
 import tqdm
 from scipy.ndimage.morphology import distance_transform_edt
-
+import config
 from saicinpainting.evaluation.data import InpaintingDataset
 from saicinpainting.evaluation.vis import save_item_for_vis
 

@@ -23,7 +23,7 @@ import tqdm
 import yaml
 from omegaconf import OmegaConf
 from torch.utils.data._utils.collate import default_collate
-
+import config
 from saicinpainting.training.data.datasets import make_default_val_dataset
 from saicinpainting.training.trainers import load_checkpoint
 from saicinpainting.utils import register_debug_signal_handlers

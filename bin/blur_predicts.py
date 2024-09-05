@@ -5,7 +5,7 @@ import os
 import cv2
 import numpy as np
 import tqdm
-
+import config
 from saicinpainting.evaluation.data import PrecomputedInpaintingResultsDataset
 from saicinpainting.evaluation.utils import load_yaml
 

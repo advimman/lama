@@ -4,6 +4,7 @@ import os
 
 import pandas as pd
 
+import config
 from saicinpainting.evaluation.data import PrecomputedInpaintingResultsDataset
 from saicinpainting.evaluation.evaluator import InpaintingEvaluator, lpips_fid100_f1
 from saicinpainting.evaluation.losses.base_loss import SegmentationAwareSSIM, \
