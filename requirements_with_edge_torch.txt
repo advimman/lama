@@ -1,0 +1,30 @@
+-f https://download.pytorch.org/whl/torch/
+torch==2.4.0+cpu
+-f https://download.pytorch.org/whl/torchvision/
+torchvision==0.19.0+cpu
+-f https://download.pytorch.org/whl/torchaudio/
+torchaudio==2.4.0+cpu
+torch_xla==2.4.0
+--pre
+tf-nightly==2.19.0.dev20241001
+ai-edge-litert-nightly
+ai-edge-quantizer-nightly
+scipy
+numpy==1.26.4
+tabulate
+safetensors
+kagglehub
+transformers
+
+ai-edge-torch-nightly
+
+albumentations==0.4.6
+easydict
+omegaconf
+webdataset
+
+scikit-image==0.24.0
+scikit-learn==1.5.2
+pytorch-lightning==1.2.9
+kornia==0.5.0
+pandas

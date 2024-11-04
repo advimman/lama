@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
-
+import numpy as np
+np.bool = np.bool_
 import hydra
 import torch
 import yaml
