@@ -11,6 +11,7 @@ import torch.nn as nn
 from saicinpainting.training.modules.base import BaseDiscriminator, deconv_factory, get_conv_block_ctor, get_norm_layer, get_activation
 from saicinpainting.training.modules.ffc import FFCResnetBlock
 from saicinpainting.training.modules.multidilated_conv import MultidilatedConv
+import torch.nn.functional as F
 
 class DotDict(defaultdict):
     # https://stackoverflow.com/questions/2352181/how-to-use-a-dot-to-access-members-of-dictionary
@@ -175,6 +176,32 @@ class MultidilatedResnetBlock(nn.Module):
         return out
 
 
+class constant_pad(nn.Module):
+    def __init__(self, tensor) -> None:
+        super().__init__()
+        self.tensor = tensor
+
+    def forward(self, x):
+        return F.pad(x, self.tensor, mode='constant', value=0)
+
+
+class mirror_pad(nn.Module):
+    def __init__(self, tensor) -> None:
+        super().__init__()
+        self.tensor = tensor
+
+    def forward(self, x):
+        return F.pad(x, self.tensor, mode='reflect')
+
+
+class replicate_pad(nn.Module):
+    def __init__(self, tensor) -> None:
+        super().__init__()
+        self.tensor = tensor
+
+    def forward(self, x):
+        return F.pad(x, self.tensor, mode='replicate')
+
 class MultiDilatedGlobalGenerator(nn.Module):
     def __init__(self, input_nc, output_nc, ngf=64, n_downsampling=3,
                  n_blocks=3, norm_layer=nn.BatchNorm2d,
@@ -184,6 +211,7 @@ class MultiDilatedGlobalGenerator(nn.Module):
                  add_out_act=True, max_features=1024, multidilation_kwargs={},
                  ffc_positions=None, ffc_kwargs={}):
         assert (n_blocks >= 0)
+        ## or padding_type='zeros'
         super().__init__()
 
         conv_layer = get_conv_block_ctor(conv_kind)
@@ -195,7 +223,10 @@ class MultiDilatedGlobalGenerator(nn.Module):
         if affine is not None:
             up_norm_layer = partial(up_norm_layer, affine=affine)
 
-        model = [nn.ReflectionPad2d(3),
+
+        model = [
+            # nn.ReflectionPad2d(3),
+            mirror_pad((7, 13, 7, 13)),
                  conv_layer(input_nc, ngf, kernel_size=7, padding=0),
                  norm_layer(ngf),
                  activation]
@@ -227,14 +258,16 @@ class MultiDilatedGlobalGenerator(nn.Module):
         for i in range(n_downsampling):
             mult = 2 ** (n_downsampling - i)
             model += deconv_factory(deconv_kind, ngf, mult, up_norm_layer, up_activation, max_features)
-        model += [nn.ReflectionPad2d(3),
-                  nn.Conv2d(ngf, output_nc, kernel_size=7, padding=0)]
+        model += [
+            # nn.ReflectionPad2d(3),
+            replicate_pad((0, 6, 0, 6)),
+              nn.Conv2d(ngf, output_nc, kernel_size=7, padding=0)]
         if add_out_act:
             model.append(get_activation('tanh' if add_out_act is True else add_out_act))
         self.model = nn.Sequential(*model)
 
     def forward(self, input):
-        return self.model(input)
+        return self.model(input)[:,:,8:-8,8:-8]
 
 class ConfigGlobalGenerator(nn.Module):
     def __init__(self, input_nc, output_nc, ngf=64, n_downsampling=3,
