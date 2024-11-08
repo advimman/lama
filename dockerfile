@@ -11,7 +11,7 @@ RUN apt-get update && \
     apt-get install -y libgl1 libglib2.0-0 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY requirements_with_edge_torch.txt.txt /requirements.txt
+COPY requirements_with_edge_torch.txt /requirements.txt
 RUN pip install --no-cache-dir --ignore-installed -r /requirements.txt -U
 
 # 一次性安裝所需的 Python 套件
