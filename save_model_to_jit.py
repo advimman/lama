@@ -17,7 +17,8 @@ os.environ['NUMEXPR_NUM_THREADS'] = '1'
 
 LOGGER = logging.getLogger(__name__)
 
-model_dir = 'places_lama'  # or 'big-lama'
+# model_dir = 'places_lama'  # or 'big-lama'
+model_dir = 'big-lama'  # or 'big-lama'
 
 checkpoint_path = f'{model_dir}/models/best.ckpt'
 
@@ -56,6 +57,20 @@ jit_model_wrapper.to('cpu')
 image = torch.rand(1, 3, 512, 512)
 mask = torch.rand(1, 1, 512, 512)
 
-traced_model = torch.jit.trace(jit_model_wrapper.eval(), (image, mask), strict=False).to("cpu")
+# traced_model = torch.jit.trace(jit_model_wrapper.eval(), (image, mask), strict=False).to("cpu")
 
-traced_model.save(f'{model_dir}-jit.pt')
+# traced_model.save(f'{model_dir}-jit.pt')
+
+onnx_file_path = f'{model_dir}.onnx'
+
+# 將模型導出為 ONNX 格式
+torch.onnx.export(
+    jit_model_wrapper,                 # 要轉換的 PyTorch 模型
+    (image, mask),           # 模型的輸入範例張量
+    onnx_file_path,        # 輸出 ONNX 模型文件路徑
+    export_params=True,    # 儲存模型參數至 ONNX 文件中
+    opset_version=18,      # ONNX opset 版本
+    do_constant_folding=True,  # 是否執行常量折疊優化
+    input_names=['input_1', 'input_2'],     # 輸入名稱（ONNX 可視化和部署時會用到）
+    output_names=['output']    # 輸出名稱
+)

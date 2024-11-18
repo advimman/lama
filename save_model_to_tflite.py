@@ -21,6 +21,8 @@ LOGGER = logging.getLogger(__name__)
 print('load model')
 
 model_dir = 'places_lama'  # 'big-lama'
+# model_dir = 'big-lama'  # 'big-lama'
+
 checkpoint_path = f'{model_dir}/models/best.ckpt'
 train_config_path = os.path.join(model_dir, 'config.yaml')
 with open(train_config_path, 'r') as f:
@@ -68,3 +70,12 @@ print('ai_edge_torch.convert...')
 edge_model = ai_edge_torch.convert(jit_model_wrapper.eval(), sample_args)
 print('ai_edge_model.export...')
 edge_model.export(f'{model_dir}.tflite')
+
+# trans to fp16
+# import ai_edge_torch.lowertools.torch_xla_utils as uu
+# from ai_edge_torch import model
+#
+# dir = 'big_lama_saved_model'
+#
+# result = model.TfLiteModel(uu.custom2tflite(dir))
+# result.export('big-lama-fp16-custom.tflite')

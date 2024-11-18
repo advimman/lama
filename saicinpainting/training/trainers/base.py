@@ -55,7 +55,7 @@ def make_multiscale_noise(base_tensor, scales=6, scale_mode='bilinear'):
 
 
 class BaseInpaintingTrainingModule(ptl.LightningModule):
-    def __init__(self, config, use_ddp, *args,  predict_only=False, visualize_each_iters=100,
+    def __init__(self, config, use_ddp, *args,  predict_only=True, visualize_each_iters=100,
                  average_generator=False, generator_avg_beta=0.999, average_generator_start_step=30000,
                  average_generator_period=10, store_discr_outputs_for_vis=False,
                  **kwargs):

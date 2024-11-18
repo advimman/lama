@@ -139,6 +139,9 @@ def merged_bundle_to_tfl_model(
     quant_config: Optional[qcfg.QuantConfig] = None,
     _tfl_converter_flags: dict = {},
 ):
+
+  print("ODML Converts a StableHLOGraphModule to a tflite model.")
+
   tf_state_dict = merged_bundle.bundles[0].state_dict
 
   tf_signatures = [

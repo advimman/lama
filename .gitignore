@@ -135,3 +135,7 @@ dmypy.json
 .vscode/
 ## vim
 *.sw?
+
+*.onnx
+*.pt
+*.tflite

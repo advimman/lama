@@ -21,7 +21,7 @@ import os
 
 @dataclasses.dataclass
 class Config:
-  use_torch_xla: bool = os.environ.get("USE_TORCH_XLA", "true").lower() in (
-      "1",
-      "true",
+  use_torch_xla: bool = os.environ.get("USE_TORCH_XLA", "false").lower() in (
+      "0",
+      "false",
   )

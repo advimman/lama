@@ -250,10 +250,14 @@ def _aten_slice_scatter(lctx, self, src, dim=0, start=None, end=None, step=1):
       ],
   )
   pred = np.ones(self.type.shape, dtype=np.bool_)
-  pred[*[
-      slice(start, end, step) if i == dim else slice(None, None, None)
-      for i in range(rank)
-  ]] = False
+  # pred[*[
+  #     slice(start, end, step) if i == dim else slice(None, None, None)
+  #     for i in range(rank)
+  # ]] = False
+
+  slices = [slice(start, end, step) if i == dim else slice(None, None, None) for i in range(rank)]
+  pred[tuple(slices)] = False
+
   pred = stablehlo.constant(
       ir.DenseElementsAttr.get(
           np.packbits(pred, bitorder="little"),

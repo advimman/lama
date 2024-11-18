@@ -15,9 +15,9 @@ from saicinpainting.utils import get_shape
 
 import torch
 import torch.nn as nn
+import math
 
-
-
+torch.pi = math.pi
 
 def rfft(x):
     N = x.shape[-1]  # Length of the signal
@@ -33,8 +33,9 @@ def rfft(x):
     # Perform the matrix multiplication
     real_part = torch.matmul(x, cos_part)
     imag_part = torch.matmul(x, sin_part)  # Notice the sign change for sine
-    if not isinstance(N, torch.Tensor):
-        N = torch.tensor(N, device=x.device)
+
+    # if not isinstance(N, torch.Tensor):
+    N = torch.tensor(N, device=x.device)
     return (real_part / torch.sqrt(N),
             imag_part / torch.sqrt(N))
 
@@ -55,10 +56,8 @@ def fft(REAL, IMAG):
     X_real = torch.matmul(cos_part, x_real.unsqueeze(-1)) - torch.matmul(sin_part, x_imag.unsqueeze(-1))
     X_imag = torch.matmul(sin_part, x_real.unsqueeze(-1)) + torch.matmul(cos_part, x_imag.unsqueeze(-1))
 
-
-
-    if not isinstance(N, torch.Tensor):
-        N = torch.tensor(N, device=X_imag.device)
+    # if not isinstance(N, torch.Tensor):
+    N = torch.tensor(N, device=X_imag.device)
 
     # Squeeze the last dimension and normalize
     X_real = X_real.squeeze(-1) / torch.sqrt(N)
@@ -85,8 +84,8 @@ class RFFTTN_REAL_ONLY(nn.Module):
         return self.fft_dim(REAL, IMAG, -2)
 
     def forward(self, input, s=None, dim=None, norm="backward"):
-        if dim is None:
-            dim = [-2, -1]  # Default to the last two dimensions
+        # if dim is None:
+        #    dim = [-2, -1]  # Default to the last two dimensions
 
         return self.rfft2d(input)
 
@@ -112,8 +111,8 @@ def irfft(REAL, IMAG, n=None, axis=-1, norm=None):
 
 
 def ifft1d(REAL, IMAG, n=None, axis=-1):
-    if n is None:
-        n = REAL.shape[axis]
+    # if n is None:
+    n = REAL.shape[axis]
 
     i = torch.arange(n, device=REAL.device)
     j = torch.arange(n, device=REAL.device)
@@ -128,8 +127,8 @@ def ifft1d(REAL, IMAG, n=None, axis=-1):
                                                                                         dims=([1], [axis]))
 
     # Normalize by the number of points
-    if not isinstance(n, torch.Tensor):
-        n = torch.tensor(n, device=REAL.device)
+    # if not isinstance(n, torch.Tensor):
+    n = torch.tensor(n, device=REAL.device)
     final_real = real_part / torch.sqrt(n)
     final_imag = imag_part / torch.sqrt(n)
 
@@ -309,23 +308,22 @@ class SpectralTransform(nn.Module):
             nn.BatchNorm2d(out_channels // 2),
             nn.ReLU(inplace=True)
         )
-        if fu_kwargs.get('use_jit', False):
-            logging.info("Using JIT for FourierUnit")
-            self.fu = FourierUnitJIT(
-                out_channels // 2, out_channels // 2, groups, **fu_kwargs)
-        else:
-            self.fu = FourierUnit(
-                out_channels // 2, out_channels // 2, groups, **fu_kwargs)
-
-        if self.enable_lfu:
-
-            if fu_kwargs.get('use_jit', False):
-                logging.info("Using JIT for FourierUnit")
-                self.lfu = FourierUnitJIT(
-                    out_channels // 2, out_channels // 2, groups)
-            else:
-                self.lfu = FourierUnit(
-                    out_channels // 2, out_channels // 2, groups)
+        #print('========================use_jit: ', fu_kwargs.get('use_jit', False))
+        #if fu_kwargs.get('use_jit', False):
+        #logging.info("Using JIT for FourierUnit1")
+        self.fu = FourierUnitJIT(
+            out_channels // 2, out_channels // 2, groups, **fu_kwargs)
+        #else:
+        #    self.fu = FourierUnit(
+        #        out_channels // 2, out_channels // 2, groups, **fu_kwargs)
+        #if self.enable_lfu:  #Brian mark
+            #if fu_kwargs.get('use_jit', False):
+            #logging.info("Using JIT for FourierUnit")
+            #self.lfu = FourierUnitJIT(
+            #    out_channels // 2, out_channels // 2, groups)
+            #else:
+            #    self.lfu = FourierUnit(
+            #        out_channels // 2, out_channels // 2, groups)
 
         self.conv2 = torch.nn.Conv2d(
             out_channels // 2, out_channels, kernel_size=1, groups=groups, bias=False)
@@ -336,18 +334,18 @@ class SpectralTransform(nn.Module):
         x = self.conv1(x)
         output = self.fu(x)
 
-        if self.enable_lfu:
-            n, c, h, w = x.shape
-            split_no = 2
-            split_s = h // split_no
-            xs = torch.cat(torch.split(
-                x[:, :c // 4], split_s, dim=-2), dim=1).contiguous()
-            xs = torch.cat(torch.split(xs, split_s, dim=-1),
-                           dim=1).contiguous()
-            xs = self.lfu(xs)
-            xs = xs.repeat(1, 1, split_no, split_no).contiguous()
-        else:
-            xs = 0
+        # if self.enable_lfu:
+        #    n, c, h, w = x.shape
+        #    split_no = 2
+        #    split_s = h // split_no
+        #    xs = torch.cat(torch.split(
+        #        x[:, :c // 4], split_s, dim=-2), dim=1).contiguous()
+        #    xs = torch.cat(torch.split(xs, split_s, dim=-1),
+        #                   dim=1).contiguous()
+        #    xs = self.lfu(xs)
+        #    xs = xs.repeat(1, 1, split_no, split_no).contiguous()
+        # else:
+        xs = 0
 
         output = self.conv2(x + output + xs)
 
@@ -397,16 +395,16 @@ class FFC(nn.Module):
         x_l, x_g = x if type(x) is tuple else (x, torch.tensor(0))
         out_xl, out_xg = torch.tensor(0), torch.tensor(0)
 
-        if self.gated:
-            total_input_parts = [x_l]
-            if torch.is_tensor(x_g):
-                total_input_parts.append(x_g)
-            total_input = torch.cat(total_input_parts, dim=1)
+        #if self.gated:  #Brian mark
+        #    total_input_parts = [x_l]
+        #    if torch.is_tensor(x_g):
+        #        total_input_parts.append(x_g)
+        #    total_input = torch.cat(total_input_parts, dim=1)
 
-            gates = torch.sigmoid(self.gate(total_input))
-            g2l_gate, l2g_gate = gates.chunk(2, dim=1)
-        else:
-            g2l_gate, l2g_gate = 1, 1
+        #    gates = torch.sigmoid(self.gate(total_input))
+        #    g2l_gate, l2g_gate = gates.chunk(2, dim=1)
+        #else:
+        g2l_gate, l2g_gate = 1, 1
 
         if self.ratio_gout != 1:
             out_xl = self.convl2l(x_l) + self.convg2l(x_g) * g2l_gate
@@ -493,6 +491,24 @@ class ConcatTupleLayer(nn.Module):
         return torch.cat(x, dim=1)
 
 
+class mirror_pad(nn.Module):
+    def __init__(self, tensor) -> None:
+        super().__init__()
+        self.tensor = tensor
+
+    def forward(self, x):
+        return F.pad(x, self.tensor, mode='reflect')
+
+
+class replicate_pad(nn.Module):
+    def __init__(self, tensor) -> None:
+        super().__init__()
+        self.tensor = tensor
+
+    def forward(self, x):
+        return F.pad(x, self.tensor, mode='replicate')
+
+
 class FFCResNetGenerator(nn.Module):
     def __init__(self, input_nc, output_nc, ngf=64, n_downsampling=3, n_blocks=9, norm_layer=nn.BatchNorm2d,
                  padding_type='reflect', activation_layer=nn.ReLU,
@@ -503,9 +519,11 @@ class FFCResNetGenerator(nn.Module):
         assert (n_blocks >= 0)
         super().__init__()
 
-        model = [nn.ReflectionPad2d(3),
-                 FFC_BN_ACT(input_nc, ngf, kernel_size=7, padding=0, norm_layer=norm_layer,
-                            activation_layer=activation_layer, **init_conv_kwargs)]
+        model = [
+            # mirror_pad((7, 13, 7, 13)),
+            nn.ReflectionPad2d(3),
+            FFC_BN_ACT(input_nc, ngf, kernel_size=7, padding=0, norm_layer=norm_layer,
+                       activation_layer=activation_layer, **init_conv_kwargs)]
 
         ### downsample
         for i in range(n_downsampling):
@@ -548,14 +566,16 @@ class FFCResNetGenerator(nn.Module):
             model += [FFCResnetBlock(ngf, padding_type=padding_type, activation_layer=activation_layer,
                                      norm_layer=norm_layer, inline=True, **out_ffc_kwargs)]
 
-        model += [nn.ReflectionPad2d(3),
-                  nn.Conv2d(ngf, output_nc, kernel_size=7, padding=0)]
+        model += [
+            # replicate_pad((0, 6, 0, 6)),
+            nn.ReflectionPad2d(3),
+            nn.Conv2d(ngf, output_nc, kernel_size=7, padding=0)]
         if add_out_act:
             model.append(get_activation('tanh' if add_out_act is True else add_out_act))
         self.model = nn.Sequential(*model)
 
     def forward(self, input):
-        return self.model(input)
+        return self.model(input)  #[:,:,8:-8,8:-8]
 
 
 class FFCNLayerDiscriminator(BaseDiscriminator):

@@ -204,6 +204,8 @@ def merged_bundle_to_tfl_model(
     underlying tflite converter.
   """
 
+  print("Converts a StableHLOGraphModule to a tflite model.")
+
   tf_module = tf.Module()
 
   shlo_bundle = merged_bundle.bundle
@@ -245,8 +247,10 @@ def merged_bundle_to_tfl_model(
 
   # We need to temporarily save since TFLite's from_concrete_functions does not
   # allow providing names for each of the concrete functions.
+  print("HEEEEEEEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRRRREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+  temp_dir_path = "./saved_model_directory"
 
-  with tempfile.TemporaryDirectory() as temp_dir_path:
+  with tempfile.TemporaryDirectory() as temp_dir_path2:
     tf.saved_model.save(
         tf_module,
         temp_dir_path,
@@ -277,6 +281,14 @@ def merged_bundle_to_tfl_model(
 
     conversion_utils.apply_tfl_converter_flags(converter, _tfl_converter_flags)
 
+    # todo: add converter.optimizations here
+    # converter.optimizations = [tf.lite.Optimize.DEFAULT]
+    # converter.target_spec.supported_ops = [
+    #     tf.lite.OpsSet.TFLITE_BUILTINS,  # Builtin ops supported in TFLite.
+    #     tf.lite.OpsSet.SELECT_TF_OPS  # Allow TF operations if needed.
+    # ]
+    # converter.experimental_new_converter = False
+
     tflite_model = converter.convert()
     del converter
     gc.collect()
@@ -291,3 +303,30 @@ def merged_bundle_to_tfl_model(
       )
 
   return tflite_model
+
+
+def custom2tflite(dir):
+    _tfl_converter_flags: dict = {}
+    converter = tf.lite.TFLiteConverter.from_saved_model(dir)
+    converter._set_original_model_type(conversion_metadata_fb.ModelType.PYTORCH)
+    converter._experimental_enable_composite_direct_lowering = True
+
+    conversion_utils.set_tfl_converter_quant_flags(converter, None)
+
+
+    conversion_utils.apply_tfl_converter_flags(converter, _tfl_converter_flags)
+
+    # todo: add converter.optimizations here
+    converter.optimizations = [tf.lite.Optimize.DEFAULT]
+    converter.target_spec.supported_types = [tf.float16]
+    # converter.target_spec.supported_ops = [
+    #     tf.lite.OpsSet.TFLITE_BUILTINS,  # Builtin ops supported in TFLite.
+    #     tf.lite.OpsSet.SELECT_TF_OPS  # Allow TF operations if needed.
+    # ]
+    # converter.experimental_new_converter = False
+
+    tflite_model = converter.convert()
+    del converter
+    gc.collect()
+
+    return tflite_model

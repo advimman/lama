@@ -147,6 +147,9 @@ class Converter:
       ValueError: If the arguments are not provided as expected. See the example
       in this functions's comment.
     """
+
+    print("Finalizes the conversion and produces an edge model.")
+
     if _ai_edge_converter_flags is None:
       _ai_edge_converter_flags = {}
 
@@ -217,6 +220,7 @@ def convert(
     dynamic_shapes: Optional[Union[dict[str, Any], Tuple[Any, ...]]] = None,
     _ai_edge_converter_flags: Optional[dict[str, Any]] = None,
 ) -> model.TfLiteModel:
+
   """Converts a PyTorch model to an edge model with a default signature.
 
   Args:
@@ -247,6 +251,7 @@ def convert(
   Example:
     edge_model = ai_edge_torch.convert(module, args)
   """
+  print("Converts a PyTorch model to an edge model with a default signature.")
 
   if _ai_edge_converter_flags is None:
     _ai_edge_converter_flags = {}

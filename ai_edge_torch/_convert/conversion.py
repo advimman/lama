@@ -97,6 +97,9 @@ def convert_signatures(
   Returns:
     The converted `model.TfLiteModel` object.
   """
+
+  print("Converts a list of `signature.Signature`s and embeds them into one `model.TfLiteModel")
+
   if _tfl_converter_flags is None:
     _tfl_converter_flags = {}
 
