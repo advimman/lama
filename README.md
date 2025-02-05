@@ -19,13 +19,12 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
       <br>
    Try out in Google Colab 
   <br>
-  All yandex dist links went bad, you can download the model from the [google drive](https://drive.google.com/drive/folders/1B2x7eQDgecTL0oh3LSIBDGj0fTxs6Ips?usp=sharing) 
+  All yandex dist links went bad, you can download the model from the https://drive.google.com/drive/folders/1B2x7eQDgecTL0oh3LSIBDGj0fTxs6Ips?usp=sharing 
 </p>
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/senya-ashukha/senya-ashukha.github.io/master/projects/lama_21/ezgif-4-0db51df695a8.gif" />
 </p>
-
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/senya-ashukha/senya-ashukha.github.io/master/projects/lama_21/gif_for_lightning_v1_white.gif" />
