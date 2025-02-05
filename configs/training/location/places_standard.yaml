@@ -1,0 +1,6 @@
+# @package _group_
+data_root_dir: /home/isaacfs/datasets/places_standard_dataset/
+occ_mask_root_dir: /home/isaacfs/occlusions_mask/
+out_root_dir: /home/isaacfs/lama/experiments/
+tb_dir: /home/isaacfs/lama/tb_logs/
+pretrained_models: /home/isaacfs/lama/

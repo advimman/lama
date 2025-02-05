@@ -3,9 +3,9 @@ import random
 import hashlib
 import logging
 from enum import Enum
-
 import cv2
 import numpy as np
+import os
 
 from saicinpainting.evaluation.masks.mask import SegmentationMask
 from saicinpainting.utils import LinearRamp
@@ -256,9 +256,12 @@ class MixedMaskGenerator:
                  squares_proba=0, squares_kwargs=None,
                  superres_proba=0, superres_kwargs=None,
                  outpainting_proba=0, outpainting_kwargs=None,
+                 occ_mask=False, occ_mask_indir=None,
                  invert_proba=0):
         self.probas = []
         self.gens = []
+        self.occ_mask = occ_mask
+        self.occ_mask_indir = occ_mask_indir
 
         if irregular_proba > 0:
             self.probas.append(irregular_proba)
@@ -306,12 +309,37 @@ class MixedMaskGenerator:
         self.probas /= self.probas.sum()
         self.invert_proba = invert_proba
 
-    def __call__(self, img, iter_i=None, raw_image=None):
+    def __call__(self, img, path=None, iter_i=None, raw_image=None, indir=None):
         kind = np.random.choice(len(self.probas), p=self.probas)
         gen = self.gens[kind]
         result = gen(img, iter_i=iter_i, raw_image=raw_image)
         if self.invert_proba > 0 and random.random() < self.invert_proba:
             result = 1 - result
+        
+        # Training for parallax tasks
+        if self.occ_mask:
+            
+            if path is None:
+                raise Exception("Trying to use occlusion mask but no path is provided!\nTroubleshoot-Idea: check the dataset call for the mask generation function")
+            
+            # Deriving the occlusion mask path from the image path
+            filename = os.path.basename(path)
+            occ_mask_path = path.replace(indir,self.occ_mask_indir)
+            occ_mask_path = occ_mask_path.replace(filename, "")
+            occ_mask_path = os.path.join(occ_mask_path, f"occlusion_{filename}") 
+
+            occ_mask = cv2.imread(occ_mask_path)
+            occ_mask = cv2.cvtColor(occ_mask, cv2.COLOR_BGR2GRAY)
+
+            occ_mask = np.expand_dims(occ_mask, axis=0)
+            # Convert mask2 to 0 and 1
+            occ_mask = occ_mask / np.max(occ_mask)
+            occ_mask = (occ_mask > 0).astype('float32')
+
+            # Blend the masks
+            result = np.logical_or(result, occ_mask).astype(result.dtype)
+            
+        
         return result
 
 

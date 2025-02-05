@@ -1,8 +1,8 @@
 # @package _group_
 
-batch_size: 10
+batch_size: 8
 val_batch_size: 2
-num_workers: 3
+num_workers: 3 
 
 train:
   indir: ${location.data_root_dir}/train
@@ -11,18 +11,21 @@ train:
     irregular_proba: 1
     irregular_kwargs:
       max_angle: 4
-      max_len: 200
-      max_width: 100
-      max_times: 5
+      max_len: 100
+      max_width: 20
+      max_times: 3
       min_times: 1
 
-    box_proba: 1
-    box_kwargs:
-      margin: 10
-      bbox_min_size: 30
-      bbox_max_size: 150
-      max_times: 4
-      min_times: 1
+    # box_proba: 1
+    # box_kwargs:
+    #   margin: 10
+    #   bbox_min_size: 30
+    #   bbox_max_size: 150
+    #   max_times: 4
+    #   min_times: 1
+       
+    occ_mask: True
+    occ_mask_indir: ${location.occ_mask_root_dir}/train
 
     segm_proba: 0
 
