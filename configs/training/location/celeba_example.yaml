@@ -3,3 +3,5 @@ data_root_dir: /home/user/lama/celeba-hq-dataset/
 out_root_dir: /home/user/lama/experiments/
 tb_dir: /home/user/lama/tb_logs/
 pretrained_models: /home/user/lama/
+# path to model checkpoint that will be loaded before start of training
+# load_checkpoint_path: /home/user/lama/big-lama/models/best.ckpt

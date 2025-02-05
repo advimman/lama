@@ -18,7 +18,7 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.plugins import DDPPlugin
 
-from saicinpainting.training.trainers import make_training_model
+from saicinpainting.training.trainers import make_training_model, load_checkpoint
 from saicinpainting.utils import register_debug_signal_handlers, handle_ddp_subprocess, handle_ddp_parent_process, \
     handle_deterministic_config
 
@@ -48,7 +48,15 @@ def main(config: OmegaConf):
         metrics_logger = TensorBoardLogger(config.location.tb_dir, name=os.path.basename(os.getcwd()))
         metrics_logger.log_hyperparams(config)
 
-        training_model = make_training_model(config)
+        if "load_checkpoint_path" in config.location:
+            print("Loading model checkpoint from path:", config.location.load_checkpoint_path)
+            training_model = load_checkpoint(
+                train_config=config,
+                path=config.location.load_checkpoint_path,
+                strict=False
+            )
+        else:
+            training_model = make_training_model(config)
 
         trainer_kwargs = OmegaConf.to_container(config.trainer.kwargs, resolve=True)
         if need_set_deterministic:
