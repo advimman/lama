@@ -17,7 +17,9 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
   <img src="https://colab.research.google.com/assets/colab-badge.svg"/>
   </a>
       <br>
-   Try out in Google Colab
+   Try out in Google Colab 
+  <br>
+  All yandex dist links went bad, you can download the model from the [google drive](https://drive.google.com/drive/folders/1B2x7eQDgecTL0oh3LSIBDGj0fTxs6Ips?usp=sharing) 
 </p>
 
 <p align="center">
