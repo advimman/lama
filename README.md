@@ -29,6 +29,8 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
   <img src="https://raw.githubusercontent.com/senya-ashukha/senya-ashukha.github.io/master/projects/lama_21/gif_for_lightning_v1_white.gif" />
 </p>
 
+
+
 # LaMa development
 (Feel free to share your paper by creating an issue)
 - https://github.com/geekyutao/Inpaint-Anything --- Inpaint Anything: Segment Anything Meets Image Inpainting
@@ -58,6 +60,8 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
 - [CoreMLaMa](https://github.com/mallman/CoreMLaMa) - a script to convert Lama Cleaner's port of LaMa to Apple's Core ML model format.
 
 # Environment setup
+
+❗️❗️❗️ All yandex dist links went bad, you can download the model from the [google drive](https://drive.google.com/drive/folders/1B2x7eQDgecTL0oh3LSIBDGj0fTxs6Ips?usp=sharing) ❗️❗️❗️
 
 Clone the repo:
 `git clone https://github.com/advimman/lama.git`
