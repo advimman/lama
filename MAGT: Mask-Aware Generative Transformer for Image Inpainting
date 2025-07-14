@@ -1,0 +1,113 @@
+# MAGT: Mask-Aware Generative Transformer for Image Inpainting
+
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+This repository contains the official PyTorch implementation of our paper:
+
+**"Advancements in Image Inpainting: A Deep Learning and GAN-Based Perspective with Defined Research Objectives"**
+
+---
+
+## 🔍 Overview
+This project introduces a novel image inpainting framework based on a Mask-Aware Generative Transformer (MAGT). The model integrates:
+
+- Dual-branch attention modules (semantic + texture attention)
+- Structure prediction module (edge-aware)
+- Multi-scale discriminator (GAN-based)
+
+The method demonstrates state-of-the-art performance on CelebA-HQ, ADE20K, and Paris StreetView datasets under irregular masking conditions.
+
+---
+
+## 📁 Dataset
+We use three public datasets:
+
+- [CelebA-HQ](https://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
+- [Paris StreetView](https://graphics.cs.cmu.edu/projects/inpaintPS/)
+- [ADE20K](https://groups.csail.mit.edu/vision/datasets/ADE20K/)
+
+### 💡 Mask Generation
+Irregular masks are generated using the method from Liu et al., 2018 (free-form brush stroke simulation). Scripts included in `/masks/`.
+
+---
+
+## 🧠 Model Architecture
+```
+Input Image + Binary Mask
+        │
+        ▼
+   Coarse Generator
+        │
+        ▼
+Refinement Generator with:
+ - Mask-Aware Attention
+ - Edge Guidance
+        │
+        ▼
+     Decoder
+        │
+        ▼
+Completed Image
+```
+See `/models/` for architecture definitions.
+
+---
+
+## 🛠️ Installation
+```bash
+# Clone repo
+$ git clone https://github.com/yourusername/MAGT-Inpainting.git
+$ cd MAGT-Inpainting
+
+# Install dependencies
+$ pip install -r requirements.txt
+```
+
+---
+
+## 🚀 Training
+```bash
+python train.py --config configs/train_config.yaml
+```
+
+### 🔧 Hyperparameters
+| Parameter | Value |
+|-----------|--------|
+| Optimizer | Adam |
+| Learning Rate | 2e-4 |
+| β₁ / β₂ | 0.5 / 0.999 |
+| Epochs | 100 |
+| Batch Size | 16 |
+| Loss Weights | λ₁ = 1.0, λ₂ = 0.1, λ₃ = 0.05, λ₄ = 0.2 |
+| Input Size | 256×256 |
+
+---
+
+## 🧪 Evaluation
+```bash
+python test.py --dataset ADE20K --checkpoint path_to_weights.pth
+```
+
+Evaluation metrics:
+- PSNR
+- SSIM
+- FID
+
+---
+
+## 📜 License
+This repository is released under the [MIT License](LICENSE).
+
+---
+
+## 🙌 Acknowledgements
+This project builds upon prior works including DeepFill v2, EdgeConnect, and RFR-Inpainting.
+
+---
+
+## ✉️ Contact
+For questions or collaboration, please contact:
+
+**Dr. Vikas Tiwari & Mahesh Patil**  
+[Oriental University, Indore]  
+[Your Email]  
