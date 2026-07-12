@@ -1,6 +1,6 @@
 # 🦙 LaMa: Resolution-robust Large Mask Inpainting with Fourier Convolutions
 
-by Roman Suvorov, Elizaveta Logacheva, Anton Mashikhin, 
+by Roman Suvorov, Elizaveta Logacheva, Anton Mashikhin,
 Anastasia Remizova, Arsenii Ashukha, Aleksei Silvestrov, Naejin Kong, Harshith Goka, Kiwoong Park, Victor Lempitsky.
 
 <p align="center" "font-size:30px;">
@@ -11,15 +11,15 @@ LaMa generalizes surprisingly well to much higher resolutions (~2k❗️) than i
 </p>
 
 [[Project page](https://advimman.github.io/lama-project/)] [[arXiv](https://arxiv.org/abs/2109.07161)] [[Supplementary](https://ashukha.com/projects/lama_21/lama_supmat_2021.pdf)] [[BibTeX](https://senya-ashukha.github.io/projects/lama_21/paper.txt)] [[Casual GAN Papers Summary](https://www.casualganpapers.com/large-masks-fourier-convolutions-inpainting/LaMa-explained.html)]
- 
+
 <p align="center">
   <a href="https://colab.research.google.com/drive/15KTEIScUbVZtUP6w2tCDMVpE-b1r9pkZ?usp=drive_link">
   <img src="https://colab.research.google.com/assets/colab-badge.svg"/>
   </a>
       <br>
-   Try out in Google Colab 
+   Try out in Google Colab
   <br>
-  All yandex dist links went bad, you can download the model from the https://drive.google.com/drive/folders/1B2x7eQDgecTL0oh3LSIBDGj0fTxs6Ips?usp=sharing 
+  All yandex dist links went bad, you can download the model from the https://drive.google.com/drive/folders/1B2x7eQDgecTL0oh3LSIBDGj0fTxs6Ips?usp=sharing
 </p>
 
 <p align="center">
@@ -75,13 +75,13 @@ There are three options of an environment:
     virtualenv inpenv --python=/usr/bin/python3
     source inpenv/bin/activate
     pip install torch==1.8.0 torchvision==0.9.0
-    
+
     cd lama
-    pip install -r requirements.txt 
+    pip install -r requirements.txt
     ```
 
 2. Conda
-    
+
     ```
     % Install conda for Linux, for other OS download miniconda at https://docs.conda.io/en/latest/miniconda.html
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -94,7 +94,7 @@ There are three options of an environment:
     conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch -y
     pip install pytorch-lightning==1.2.9
     ```
- 
+
 3. Docker: No actions are needed 🎉.
 
 # Inference <a name="prediction"></a>
@@ -108,8 +108,8 @@ export TORCH_HOME=$(pwd) && export PYTHONPATH=$(pwd)
 **1. Download pre-trained models**
 
 The best model (Places2, Places Challenge):
-    
-```    
+
+```
 curl -LJO https://huggingface.co/smartywu/big-lama/resolve/main/big-lama.zip
 unzip big-lama.zip
 ```
@@ -130,11 +130,11 @@ unzip LaMa_test_images.zip
 ```
 <details>
  <summary>OR prepare your data:</summary>
-1) Create masks named as `[images_name]_maskXXX[image_suffix]`, put images and masks in the same folder. 
+1) Create masks named as `[images_name]_maskXXX[image_suffix]`, put images and masks in the same folder.
 
-- You can use the [script](https://github.com/advimman/lama/blob/main/bin/gen_mask_dataset.py) for random masks generation. 
+- You can use the [script](https://github.com/advimman/lama/blob/main/bin/gen_mask_dataset.py) for random masks generation.
 - Check the format of the files:
-    ```    
+    ```
     image1_mask001.png
     image1.png
     image2_mask001.png
@@ -153,7 +153,7 @@ On the host machine:
     python3 bin/predict.py model.path=$(pwd)/big-lama indir=$(pwd)/LaMa_test_images outdir=$(pwd)/output
 
 **OR** in the docker
-  
+
 The following command will pull the docker image from Docker Hub and execute the prediction script
 ```
 bash docker/2_predict.sh $(pwd)/big-lama $(pwd)/LaMa_test_images $(pwd)/output device=cpu
@@ -200,7 +200,7 @@ On the host machine:
     # Unpack train/test/val data and create .yaml config for it
     bash fetch_data/places_standard_train_prepare.sh
     bash fetch_data/places_standard_test_val_prepare.sh
-    
+
     # Sample images for test and viz at the end of epoch
     bash fetch_data/places_standard_test_val_sample.sh
     bash fetch_data/places_standard_test_val_gen_masks.sh
@@ -211,8 +211,8 @@ On the host machine:
     # To evaluate trained model and report metrics as in our paper
     # we need to sample previously unseen 30k images and generate masks for them
     bash fetch_data/places_standard_evaluation_prepare_data.sh
-    
-    # Infer model on thick/thin/medium masks in 256 and 512 and run evaluation 
+
+    # Infer model on thick/thin/medium masks in 256 and 512 and run evaluation
     # like this:
     python3 bin/predict.py \
     model.path=$(pwd)/experiments/<user>_<date:time>_lama-fourier_/ \
@@ -225,10 +225,10 @@ On the host machine:
     $(pwd)/inference/random_thick_512 \
     $(pwd)/inference/random_thick_512_metrics.csv
 
-    
-    
+
+
 Docker: TODO
-    
+
 ## CelebA
 On the host machine:
 
@@ -238,7 +238,7 @@ On the host machine:
 
     # Download CelebA-HQ dataset
     # Download data256x256.zip from https://drive.google.com/drive/folders/11Vz0fqHS2rXDb5pprgTjpD7S2BAJhi1P
-    
+
     # unzip & split into train/test/visualization & create config for it
     bash fetch_data/celebahq_dataset_prepare.sh
 
@@ -248,28 +248,28 @@ On the host machine:
     # Run training
     python3 bin/train.py -cn lama-fourier-celeba data.batch_size=10
 
-    # Infer model on thick/thin/medium masks in 256 and run evaluation 
+    # Infer model on thick/thin/medium masks in 256 and run evaluation
     # like this:
     python3 bin/predict.py \
     model.path=$(pwd)/experiments/<user>_<date:time>_lama-fourier-celeba_/ \
     indir=$(pwd)/celeba-hq-dataset/visual_test_256/random_thick_256/ \
     outdir=$(pwd)/inference/celeba_random_thick_256 model.checkpoint=last.ckpt
-    
-    
+
+
 Docker: TODO
 
-## Places Challenge 
+## Places Challenge
 
 On the host machine:
 
     # This script downloads multiple .tar files in parallel and unpacks them
-    # Places365-Challenge: Train(476GB) from High-resolution images (to train Big-Lama) 
+    # Places365-Challenge: Train(476GB) from High-resolution images (to train Big-Lama)
     bash places_challenge_train_download.sh
-    
+
     TODO: prepare
-    TODO: train 
+    TODO: train
     TODO: eval
-      
+
 Docker: TODO
 
 ## Create your data
@@ -294,8 +294,8 @@ On the host machine:
     # LaMa generates random masks for the train data on the flight,
     # but needs fixed masks for test and visual_test for consistency of evaluation.
 
-    # Suppose, we want to evaluate and pick best models 
-    # on 512x512 val dataset  with thick/thin/medium masks 
+    # Suppose, we want to evaluate and pick best models
+    # on 512x512 val dataset  with thick/thin/medium masks
     # And your images have .jpg extention:
 
     python3 bin/gen_mask_dataset.py \
@@ -304,10 +304,10 @@ On the host machine:
     my_dataset/val/random_<size>_512.yaml \# thick, thin, medium
     --ext jpg
 
-    # So the mask generator will: 
+    # So the mask generator will:
     # 1. resize and crop val images and save them as .png
     # 2. generate masks
-    
+
     ls my_dataset/val/random_medium_512/
     image1_crop000_mask000.png
     image1_crop000.png
@@ -322,7 +322,7 @@ On the host machine:
     my_dataset/visual_test_source/ \
     my_dataset/visual_test/random_<size>_512/ \ #thick, thin, medium
     --ext jpg
-    
+
 
     ls my_dataset/visual_test/random_thick_512/
     image1_crop000_mask000.png
@@ -332,17 +332,17 @@ On the host machine:
     ...
 
     # Same process for eval_source image folder:
-    
+
     python3 bin/gen_mask_dataset.py \
     $(pwd)/configs/data_gen/random_<size>_512.yaml \  #thick, thin, medium
     my_dataset/eval_source/ \
     my_dataset/eval/random_<size>_512/ \ #thick, thin, medium
     --ext jpg
-    
+
 
 
     # Generate location config file which locate these folders:
-    
+
     touch my_dataset.yaml
     echo "data_root_dir: $(pwd)/my_dataset/" >> my_dataset.yaml
     echo "out_root_dir: $(pwd)/experiments/" >> my_dataset.yaml
@@ -367,11 +367,11 @@ On the host machine:
     # Run training
     python3 bin/train.py -cn lama-fourier location=my_dataset data.batch_size=10
 
-    # Evaluation: LaMa training procedure picks best few models according to 
-    # scores on my_dataset/val/ 
+    # Evaluation: LaMa training procedure picks best few models according to
+    # scores on my_dataset/val/
 
-    # To evaluate one of your best models (i.e. at epoch=32) 
-    # on previously unseen my_dataset/eval do the following 
+    # To evaluate one of your best models (i.e. at epoch=32)
+    # on previously unseen my_dataset/eval do the following
     # for thin, thick and medium:
 
     # infer:
@@ -388,12 +388,12 @@ On the host machine:
     $(pwd)/inference/my_dataset/random_<size>_512 \
     $(pwd)/inference/my_dataset/random_<size>_512_metrics.csv
 
-    
+
 **OR** in the docker:
 
     TODO: train
     TODO: eval
-    
+
 # Hints
 
 ### Generate different kinds of masks
@@ -417,7 +417,7 @@ Note that we *do not fix a random seed*, so the results will be slightly differe
 | Medium | random_medium_512.yaml | random_medium_256.yaml |
 | Wide   | random_thick_512.yaml  | random_thick_256.yaml  |
 
-Feel free to change the config path (argument #1) to any other config in `configs/data_gen` 
+Feel free to change the config path (argument #1) to any other config in `configs/data_gen`
 or adjust config files themselves.
 
 ### Override parameters in configs
@@ -427,8 +427,8 @@ Also you can override parameters in config like this:
 
 Where .yaml file extension is omitted
 
-### Models options 
-Config names for models from paper (substitude into the training command): 
+### Models options
+Config names for models from paper (substitude into the training command):
 
     * big-lama
     * big-lama-regular
@@ -458,7 +458,7 @@ TODO
 * FID is from [mseitzer](https://github.com/mseitzer/pytorch-fid)
 
 ## Citation
-If you found this code helpful, please consider citing: 
+If you found this code helpful, please consider citing:
 ```
 @article{suvorov2021resolution,
   title={Resolution-robust Large Mask Inpainting with Fourier Convolutions},
